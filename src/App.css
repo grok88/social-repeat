@@ -7,17 +7,6 @@
                 'nav content';
 }
 
-.header {
-    grid-area: header;
-    background-color: seagreen;
-}
 
-.nav {
-    grid-area: nav;
-    background-color: goldenrod;
-}
 
-.content {
-    grid-area: content;
-    background-color: darkkhaki;
-}
+
