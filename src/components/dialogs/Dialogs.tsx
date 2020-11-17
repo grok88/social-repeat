@@ -3,18 +3,20 @@ import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
 
-const Dialogs = () => {
-    const dialogs = [
-        {id: 1, name: 'Alex'},
-        {id: 2, name: 'Sveta'},
-        {id: 3, name: 'Sergey'},
-        {id: 4, name: 'Tanya'},
-    ];
-    const messages = [
-        {id: 1, message: 'This is Sparta!'},
-        {id: 2, message: 'I likes WoW'},
-        {id: 3, message: 'I want to see a mountain'},
-    ];
+export type DialogType = {
+    id:number
+    name:string
+}
+export type MessageType = {
+    id:number
+    message:string
+}
+export type DialogsPropsType = {
+    dialogs:Array<DialogType>
+    messages:Array<MessageType>
+}
+const Dialogs:React.FC<DialogsPropsType> = ({dialogs,messages}) => {
+
     return (
         <div className={styles.dialogs}>
             <div className={styles.dialogsItem}>

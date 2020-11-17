@@ -2,13 +2,17 @@ import React from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
 
-const MyPosts = () => {
-    const posts = [
-        {id: 1, message: 'This is Sparta', likesCount: 5},
-        {id: 2, message: 'Wow, You are big', likesCount: 6},
-        {id: 3, message: 'Wow, I am good', likesCount: 7},
+export type PostType = {
+    id:number
+    message:string
+    likesCount:number
+}
+export type MyPostsPropsType = {
+    posts : Array<PostType>
+}
 
-    ];
+const MyPosts:React.FC<MyPostsPropsType> = ({posts}) => {
+
     return (
         <div className={styles.myPostsBlock}>
             my Posts
