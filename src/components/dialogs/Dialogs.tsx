@@ -4,18 +4,20 @@ import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
 
 export type DialogType = {
-    id:number
-    name:string
+    id: number
+    name: string
 }
 export type MessageType = {
-    id:number
-    message:string
+    id: number
+    message: string
 }
 export type DialogsPropsType = {
-    dialogs:Array<DialogType>
-    messages:Array<MessageType>
+    data: {
+        dialogs: Array<DialogType>
+        messages: Array<MessageType>
+    }
 }
-const Dialogs:React.FC<DialogsPropsType> = ({dialogs,messages}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({data:{dialogs, messages}}) => {
 
     return (
         <div className={styles.dialogs}>

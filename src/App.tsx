@@ -5,23 +5,29 @@ import Navbar from "./components/navbar/Navbar";
 import Profile from "./components/profile/Profile";
 import Dialogs, {DialogType, MessageType} from "./components/dialogs/Dialogs";
 import {Route} from 'react-router-dom';
-import { PostType } from './components/profile/my-posts/MyPosts';
+import {PostType} from './components/profile/my-posts/MyPosts';
 
 type AppPropsType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    posts : Array<PostType>
+    state: {
+        profilePage: {
+            posts: Array<PostType>
+        },
+        dialogsPage: {
+            dialogs: Array<DialogType>
+            messages: Array<MessageType>
+        }
+    }
 }
 
 const App: React.FC<AppPropsType> = (props) => {
-    const {dialogs,messages,posts} = props;
+    const {state: {dialogsPage, profilePage}} = props;
     return (
         <div className={'app-wrapper'}>
             <Header/>
             <Navbar/>
             <div className={'app-wrapper-content'}>
-                <Route path={'/profile'} render={() => <Profile posts={posts}/>}/>
-                <Route path={'/dialogs'} render={() => <Dialogs dialogs={dialogs} messages={messages}/>}/>
+                <Route path={'/profile'} render={() => <Profile data={profilePage}/>}/>
+                <Route path={'/dialogs'} render={() => <Dialogs data={dialogsPage}/>}/>
             </div>
         </div>
     );

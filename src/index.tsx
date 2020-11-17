@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
+import {state} from './redux/state'
 
-const dialogs = [
+/*const dialogs = [
     {id: 1, name: 'Alex'},
     {id: 2, name: 'Sveta'},
     {id: 3, name: 'Sergey'},
@@ -20,12 +21,12 @@ const posts = [
     {id: 1, message: 'This is Sparta', likesCount: 5},
     {id: 2, message: 'Wow, You are big', likesCount: 6},
     {id: 3, message: 'Wow, I am good', likesCount: 7},
-];
+];*/
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <App dialogs={dialogs} messages={messages} posts={posts}/>
+            <App state={state}/>
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')
