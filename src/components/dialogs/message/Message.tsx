@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from "./Message.module.css";
 type MessagePropsType  ={
-    title:string
+    message:string
 }
-const Message:React.FC<MessagePropsType> = ({title}) => {
+const Message:React.FC<MessagePropsType> = ({message}) => {
     return (
         <div className={styles.message}>
-            {title}
+            {message}
         </div>
     );
 };

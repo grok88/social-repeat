@@ -3,9 +3,9 @@ import styles from './Post.module.css'
 
 type PostPropsType = {
     message: string
-    like: number
+    likesCount: number
 }
-const Post: React.FC<PostPropsType> = ({message, like}) => {
+const Post: React.FC<PostPropsType> = ({message, likesCount}) => {
     return (
         <div className={styles.item}>
             <img
@@ -13,7 +13,7 @@ const Post: React.FC<PostPropsType> = ({message, like}) => {
                 className={styles.img}/>
             {message}
             <div>
-                <span>{like} like</span>
+                <span>{likesCount} like</span>
             </div>
         </div>
     );
