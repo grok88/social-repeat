@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
@@ -17,8 +17,12 @@ export type DialogsPropsType = {
         messages: Array<MessageType>
     }
 }
-const Dialogs: React.FC<DialogsPropsType> = ({data:{dialogs, messages}}) => {
-
+const Dialogs: React.FC<DialogsPropsType> = ({data: {dialogs, messages}}) => {
+    const messageRef = useRef<HTMLTextAreaElement>(null);
+    const addMessage = () => {
+        const text = messageRef && messageRef.current && messageRef.current.value;
+        alert(text);
+    }
     return (
         <div className={styles.dialogs}>
             <div className={styles.dialogsItem}>
@@ -30,6 +34,10 @@ const Dialogs: React.FC<DialogsPropsType> = ({data:{dialogs, messages}}) => {
                 {
                     messages.map(m => <Message message={m.message} key={m.id}/>)
                 }
+                <div>
+                    <textarea ref={messageRef}></textarea>
+                    <button onClick={addMessage}>Add Message</button>
+                </div>
             </div>
         </div>
     );
