@@ -1,4 +1,5 @@
 import {PostType} from "../components/profile/my-posts/MyPosts";
+import {rerenderEntireTree} from "../render";
 
 export const state = {
     profilePage: {
@@ -31,4 +32,5 @@ export const addPost = (postMessage: string | null) => {
     };
     // @ts-ignore
     state.profilePage.posts.push(newPost);
+    rerenderEntireTree(state);
 }
