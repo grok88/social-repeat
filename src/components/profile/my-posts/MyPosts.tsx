@@ -4,20 +4,21 @@ import Post from "./Post/Post";
 
 export type PostType = {
     id: number
-    message: string
+    message: string | null
     likesCount: number
 }
 export type MyPostsPropsType = {
     posts: Array<PostType>
+    addPost : (postMessage:string | null) => void;
 }
 
-const MyPosts: React.FC<MyPostsPropsType> = ({posts}) => {
+const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const addPost = () => {
-        const text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
-        alert(text);
+        let text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
+        props.addPost(text);
     }
 
     return (
@@ -28,7 +29,7 @@ const MyPosts: React.FC<MyPostsPropsType> = ({posts}) => {
                 <button onClick={addPost}>add Post</button>
             </div>
             {
-                posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>)
+                props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>)
             }
         </div>
     );

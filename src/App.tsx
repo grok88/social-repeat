@@ -6,8 +6,9 @@ import Profile from "./components/profile/Profile";
 import Dialogs, {DialogType, MessageType} from "./components/dialogs/Dialogs";
 import {Route} from 'react-router-dom';
 import {PostType} from './components/profile/my-posts/MyPosts';
+import {addPost} from "./redux/state";
 
-type AppPropsType = {
+export type AppPropsType = {
     state: {
         profilePage: {
             posts: Array<PostType>
@@ -16,7 +17,8 @@ type AppPropsType = {
             dialogs: Array<DialogType>
             messages: Array<MessageType>
         }
-    }
+    },
+    addPost : (postMessage:string | null) => void;
 }
 
 const App: React.FC<AppPropsType> = (props) => {
@@ -26,7 +28,7 @@ const App: React.FC<AppPropsType> = (props) => {
             <Header/>
             <Navbar/>
             <div className={'app-wrapper-content'}>
-                <Route path={'/profile'} render={() => <Profile data={profilePage}/>}/>
+                <Route path={'/profile'} render={() => <Profile data={profilePage} addPost={addPost}/>}/>
                 <Route path={'/dialogs'} render={() => <Dialogs data={dialogsPage}/>}/>
             </div>
         </div>

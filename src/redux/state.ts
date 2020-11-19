@@ -1,3 +1,5 @@
+import {PostType} from "../components/profile/my-posts/MyPosts";
+
 export const state = {
     profilePage: {
         posts: [
@@ -19,4 +21,14 @@ export const state = {
             {id: 3, message: 'I want to see a mountain'},
         ]
     }
+}
+
+export const addPost = (postMessage: string | null) => {
+    const newPost: PostType = {
+        id: state.profilePage.posts.length + 1,
+        message: postMessage,
+        likesCount: 0
+    };
+    // @ts-ignore
+    state.profilePage.posts.push(newPost);
 }
