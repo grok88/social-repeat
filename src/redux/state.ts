@@ -7,7 +7,8 @@ export const state = {
             {id: 1, message: 'This is Sparta', likesCount: 5},
             {id: 2, message: 'Wow, You are big', likesCount: 6},
             {id: 3, message: 'Wow, I am good', likesCount: 7},
-        ]
+        ],
+        newPostText: ''
     },
     dialogsPage: {
         dialogs: [
@@ -24,13 +25,20 @@ export const state = {
     }
 }
 
-export const addPost = (postMessage: string | null) => {
+export const addPost = () => {
+
     const newPost: PostType = {
         id: state.profilePage.posts.length + 1,
-        message: postMessage,
+        message: state.profilePage.newPostText,
         likesCount: 0
     };
-    // @ts-ignore
+
     state.profilePage.posts.push(newPost);
+    state.profilePage.newPostText = '';
+    rerenderEntireTree(state);
+}
+export const updatePost = (message: string | null) => {
+    // @ts-ignore
+    state.profilePage.newPostText = message;
     rerenderEntireTree(state);
 }

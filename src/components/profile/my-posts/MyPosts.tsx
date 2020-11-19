@@ -4,12 +4,14 @@ import Post from "./Post/Post";
 
 export type PostType = {
     id: number
-    message: string | null
+    message: string
     likesCount: number
 }
 export type MyPostsPropsType = {
     posts: Array<PostType>
-    addPost : (postMessage:string | null) => void;
+    addPost: () => void;
+    newPostText:string
+    updatePost:(message:string  | null) => void
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
@@ -17,15 +19,21 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const addPost = () => {
-        let text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
-        props.addPost(text);
+        props.addPost();
     }
 
+    const updatePost = () => {
+        let text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
+        if (textAreaRef && textAreaRef.current) {
+            props.updatePost(text );
+        }
+
+    }
     return (
         <div className={styles.myPostsBlock}>
             my Posts
             <div>
-                <textarea ref={textAreaRef}></textarea>
+                <textarea ref={textAreaRef} value={props.newPostText} onChange={updatePost}></textarea>
                 <button onClick={addPost}>add Post</button>
             </div>
             {

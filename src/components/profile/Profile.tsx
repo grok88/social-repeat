@@ -2,20 +2,25 @@ import React from 'react';
 import MyPosts, {PostType} from './my-posts/MyPosts';
 import styles from './Profile.module.css'
 import ProfileInfo from "./prodile-info/ProfileInfo";
-import {addPost} from "../../redux/state";
 
 type ProfilePropsType = {
     data: {
         posts: Array<PostType>
+        newPostText:string
     }
-    addPost : (postMessage:string | null) => void;
+    addPost : () => void;
+    updatePost:(message:string  | null) => void
 }
 
-const Profile: React.FC<ProfilePropsType> = ({data: {posts}}) => {
+const Profile: React.FC<ProfilePropsType> = ({data: {posts,newPostText},addPost,updatePost}) => {
     return (
         <div className={styles.content}>
             <ProfileInfo/>
-            <MyPosts posts={posts} addPost={addPost}/>
+            <MyPosts posts={posts}
+                     newPostText={newPostText}
+                     addPost={addPost}
+                     updatePost={updatePost}
+            />
         </div>
     );
 };
