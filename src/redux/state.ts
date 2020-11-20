@@ -1,5 +1,8 @@
 import {PostType} from "../components/profile/my-posts/MyPosts";
-import {rerenderEntireTree} from "../render";
+
+let  rerenderEntireTree = (state:any) => {
+    console.log('Rerender');
+}
 
 export const state = {
     profilePage: {
@@ -41,4 +44,8 @@ export const updatePost = (message: string | null) => {
     // @ts-ignore
     state.profilePage.newPostText = message;
     rerenderEntireTree(state);
+}
+
+export const subscribe = (observer:any) => {
+    rerenderEntireTree = observer;
 }
