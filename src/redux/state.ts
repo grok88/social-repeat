@@ -36,42 +36,40 @@ export const store = {
         this._callSubscriber = observer;
     },
 
-
     dispatch(action: any) {
-        if (action === 'ADD-POST') {
-            const newPost: PostType = {
-                id: this._state.profilePage.posts.length + 1,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            };
-
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = '';
-            this._callSubscriber(this._state);
-        } else if (action === 'UPDATE-POST') {
-            // @ts-ignore
-            this._state.profilePage.newPostText = action.message;
-            this._callSubscriber(this._state);
-            console.log(this._state.profilePage.newPostText)
-        }
-        // switch (action) {
-        //     case 'ADD-POST':
-        //         const newPost: PostType = {
-        //             id: this._state.profilePage.posts.length + 1,
-        //             message: this._state.profilePage.newPostText,
-        //             likesCount: 0
-        //         };
+        // if (action.type === 'ADD-POST') {
+        //     const newPost: PostType = {
+        //         id: this._state.profilePage.posts.length + 1,
+        //         message: this._state.profilePage.newPostText,
+        //         likesCount: 0
+        //     };
         //
-        //         this._state.profilePage.posts.push(newPost);
-        //         this._state.profilePage.newPostText = '';
-        //         this._callSubscriber(this._state);
-        //
-        //     case 'UPDATE-POST':
-        //         debugger
-        //         // @ts-ignore
-        //         this._state.profilePage.newPostText = action.message;
-        //         this._callSubscriber(this._state);
+        //     this._state.profilePage.posts.push(newPost);
+        //     this._state.profilePage.newPostText = '';
+        //     this._callSubscriber(this._state);
+        // } else if (action.type === 'UPDATE-POST') {
+        //     // @ts-ignore
+        //     this._state.profilePage.newPostText = action.message;
+        //     this._callSubscriber(this._state);
+        //     console.log(this._state.profilePage.newPostText)
         // }
+        switch (action.type) {
+            case 'ADD-POST':
+                const newPost: PostType = {
+                    id: this._state.profilePage.posts.length + 1,
+                    message: this._state.profilePage.newPostText,
+                    likesCount: 0
+                };
+
+                this._state.profilePage.posts.push(newPost);
+                this._state.profilePage.newPostText = '';
+                this._callSubscriber(this._state);
+                break;
+            case 'UPDATE-POST':
+                // @ts-ignore
+                this._state.profilePage.newPostText = action.message;
+                this._callSubscriber(this._state);
+        }
     }
 }
 
