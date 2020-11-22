@@ -9,9 +9,9 @@ export type PostType = {
 }
 export type MyPostsPropsType = {
     posts: Array<PostType>
-    addPost: () => void;
-    newPostText:string
-    updatePost:(message:string  | null) => void
+    newPostText: string
+    dispatch: (action: any) => void;
+
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
@@ -19,13 +19,13 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const addPost = () => {
-        props.addPost();
+        props.dispatch({type: 'ADD-POST'});
     }
 
     const updatePost = () => {
         let text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
         if (textAreaRef && textAreaRef.current) {
-            props.updatePost(text );
+            props.dispatch({type: 'UPDATE-POST', message: text});
         }
 
     }

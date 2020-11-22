@@ -6,20 +6,18 @@ import ProfileInfo from "./prodile-info/ProfileInfo";
 type ProfilePropsType = {
     data: {
         posts: Array<PostType>
-        newPostText:string
+        newPostText: string
     }
-    addPost : () => void;
-    updatePost:(message:string  | null) => void
+    dispatch: (action: any) => void;
 }
 
-const Profile: React.FC<ProfilePropsType> = ({data: {posts,newPostText},addPost,updatePost}) => {
+const Profile: React.FC<ProfilePropsType> = ({data: {posts, newPostText}, dispatch}) => {
     return (
         <div className={styles.content}>
             <ProfileInfo/>
             <MyPosts posts={posts}
                      newPostText={newPostText}
-                     addPost={addPost}
-                     updatePost={updatePost}
+                     dispatch={dispatch}
             />
         </div>
     );

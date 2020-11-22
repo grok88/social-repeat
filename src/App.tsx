@@ -18,19 +18,18 @@ export type AppPropsType = {
             messages: Array<MessageType>
         }
     },
-    addPost: () => void;
-    updatePost: (message: string  | null) => void
+    dispatch: (action: any) => void;
 }
 
 const App: React.FC<AppPropsType> = (props) => {
-    const {state: {dialogsPage, profilePage}, addPost, updatePost} = props;
+    const {state: {dialogsPage, profilePage}, dispatch} = props;
     return (
         <div className={'app-wrapper'}>
             <Header/>
             <Navbar/>
             <div className={'app-wrapper-content'}>
                 <Route path={'/profile'}
-                       render={() => <Profile data={profilePage} addPost={addPost} updatePost={updatePost}/>}/>
+                       render={() => <Profile data={profilePage} dispatch={dispatch}/>}/>
                 <Route path={'/dialogs'} render={() => <Dialogs data={dialogsPage}/>}/>
             </div>
         </div>

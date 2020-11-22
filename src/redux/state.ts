@@ -28,27 +28,49 @@ export const store = {
     _callSubscriber(state: any) {
         console.log('Rerender');
     },
+
     getstate() {
         return this._state;
     },
-    addPost() {
-        const newPost: PostType = {
-            id: this._state.profilePage.posts.length + 1,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = '';
-        this._callSubscriber(this._state);
-    },
-    updatePost(message: string | null) {
-        // @ts-ignore
-        this._state.profilePage.newPostText = message;
-        this._callSubscriber(this._state);
-    },
     subscribe(observer: any) {
         this._callSubscriber = observer;
+    },
+
+    // addPost() {
+    //     const newPost: PostType = {
+    //         id: this._state.profilePage.posts.length + 1,
+    //         message: this._state.profilePage.newPostText,
+    //         likesCount: 0
+    //     };
+    //
+    //     this._state.profilePage.posts.push(newPost);
+    //     this._state.profilePage.newPostText = '';
+    //     this._callSubscriber(this._state);
+    // },
+    // updatePost(message: string | null) {
+    //     // @ts-ignore
+    //     this._state.profilePage.newPostText = message;
+    //     this._callSubscriber(this._state);
+    // },
+
+    dispatch(action:any){
+        switch (action) {
+            case 'ADD-POST':
+                const newPost: PostType = {
+                    id: this._state.profilePage.posts.length + 1,
+                    message: this._state.profilePage.newPostText,
+                    likesCount: 0
+                };
+
+                this._state.profilePage.posts.push(newPost);
+                this._state.profilePage.newPostText = '';
+                this._callSubscriber(this._state);
+                break;
+            case 'UPDATE-POST':
+                // @ts-ignore
+                this._state.profilePage.newPostText = action.message;
+                this._callSubscriber(this._state);
+        }
     }
 }
 
