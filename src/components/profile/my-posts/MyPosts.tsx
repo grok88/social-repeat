@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {addPostAC, updatePostAC} from "../../../redux/state";
+import {ActionsType, addPostAC, updatePostAC} from "../../../redux/state";
 
 export type PostType = {
     id: number
@@ -11,7 +11,7 @@ export type PostType = {
 export type MyPostsPropsType = {
     posts: Array<PostType>
     newPostText: string
-    dispatch: (action: any) => void;
+    dispatch: (action: ActionsType) => void;
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {

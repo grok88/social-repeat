@@ -6,6 +6,7 @@ import Profile from "./components/profile/Profile";
 import Dialogs, {DialogType, MessageType} from "./components/dialogs/Dialogs";
 import {Route} from 'react-router-dom';
 import {PostType} from './components/profile/my-posts/MyPosts';
+import {ActionsType} from "./redux/state";
 
 export type AppPropsType = {
     state: {
@@ -16,9 +17,10 @@ export type AppPropsType = {
         dialogsPage: {
             dialogs: Array<DialogType>
             messages: Array<MessageType>
+            newMessText:string
         }
     },
-    dispatch: (action: any) => void;
+    dispatch: (action: ActionsType) => void;
 }
 
 const App: React.FC<AppPropsType> = (props) => {
@@ -30,7 +32,7 @@ const App: React.FC<AppPropsType> = (props) => {
             <div className={'app-wrapper-content'}>
                 <Route path={'/profile'}
                        render={() => <Profile data={profilePage} dispatch={dispatch}/>}/>
-                <Route path={'/dialogs'} render={() => <Dialogs data={dialogsPage}/>}/>
+                <Route path={'/dialogs'} render={() => <Dialogs data={dialogsPage} dispatch={dispatch} />}/>
             </div>
         </div>
     );
