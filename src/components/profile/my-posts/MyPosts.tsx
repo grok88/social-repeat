@@ -1,6 +1,7 @@
 import React, {useRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
+import {addPostAC, updatePostAC} from "../../../redux/state";
 
 export type PostType = {
     id: number
@@ -11,21 +12,19 @@ export type MyPostsPropsType = {
     posts: Array<PostType>
     newPostText: string
     dispatch: (action: any) => void;
-
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
-
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
+    console.log(props.newPostText)
     const addPost = () => {
-        props.dispatch({type: 'ADD-POST'});
+        props.dispatch(addPostAC());
     }
 
     const updatePost = () => {
         let text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
         if (textAreaRef && textAreaRef.current) {
-            props.dispatch({type: 'UPDATE-POST', message: text});
+            props.dispatch(updatePostAC(text));
         }
 
     }

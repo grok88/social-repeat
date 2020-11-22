@@ -9,7 +9,7 @@ export const store = {
                 {id: 2, message: 'Wow, You are big', likesCount: 6},
                 {id: 3, message: 'Wow, I am good', likesCount: 7},
             ],
-            newPostText: ''
+            newPostText: 'керр'
         },
         dialogsPage: {
             dialogs: [
@@ -36,44 +36,53 @@ export const store = {
         this._callSubscriber = observer;
     },
 
-    // addPost() {
-    //     const newPost: PostType = {
-    //         id: this._state.profilePage.posts.length + 1,
-    //         message: this._state.profilePage.newPostText,
-    //         likesCount: 0
-    //     };
-    //
-    //     this._state.profilePage.posts.push(newPost);
-    //     this._state.profilePage.newPostText = '';
-    //     this._callSubscriber(this._state);
-    // },
-    // updatePost(message: string | null) {
-    //     // @ts-ignore
-    //     this._state.profilePage.newPostText = message;
-    //     this._callSubscriber(this._state);
-    // },
 
-    dispatch(action:any){
-        switch (action) {
-            case 'ADD-POST':
-                const newPost: PostType = {
-                    id: this._state.profilePage.posts.length + 1,
-                    message: this._state.profilePage.newPostText,
-                    likesCount: 0
-                };
+    dispatch(action: any) {
+        if (action === 'ADD-POST') {
+            const newPost: PostType = {
+                id: this._state.profilePage.posts.length + 1,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
 
-                this._state.profilePage.posts.push(newPost);
-                this._state.profilePage.newPostText = '';
-                this._callSubscriber(this._state);
-                break;
-            case 'UPDATE-POST':
-                // @ts-ignore
-                this._state.profilePage.newPostText = action.message;
-                this._callSubscriber(this._state);
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber(this._state);
+        } else if (action === 'UPDATE-POST') {
+            // @ts-ignore
+            this._state.profilePage.newPostText = action.message;
+            this._callSubscriber(this._state);
+            console.log(this._state.profilePage.newPostText)
         }
+        // switch (action) {
+        //     case 'ADD-POST':
+        //         const newPost: PostType = {
+        //             id: this._state.profilePage.posts.length + 1,
+        //             message: this._state.profilePage.newPostText,
+        //             likesCount: 0
+        //         };
+        //
+        //         this._state.profilePage.posts.push(newPost);
+        //         this._state.profilePage.newPostText = '';
+        //         this._callSubscriber(this._state);
+        //
+        //     case 'UPDATE-POST':
+        //         debugger
+        //         // @ts-ignore
+        //         this._state.profilePage.newPostText = action.message;
+        //         this._callSubscriber(this._state);
+        // }
     }
 }
 
+export const addPostAC = () => {
+    return {
+        type: 'ADD-POST'
+    }
+}
+export const updatePostAC = (message: string | null) => {
+    return {type: 'UPDATE-POST', message}
+}
 
-
-
+// @ts-ignore
+window.store = store;
