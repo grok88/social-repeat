@@ -2,7 +2,8 @@ import React, {useRef} from 'react';
 import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
-import {ActionsType, addMessageAC, updateMessageAC} from "../../redux/state";
+import { addMessageAC, updateMessageAC} from "../../redux/dialogs-reducer";
+import {ActionsType} from "../../redux/state";
 
 export type DialogType = {
     id: number
