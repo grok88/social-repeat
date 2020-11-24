@@ -1,7 +1,9 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {addPostAC, updatePostAC} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {AppRootStateType} from "../../../redux/redux-store";
+import {StoreContext} from '././../../../index';
+
 
 export type PostType = {
     id: number
@@ -9,24 +11,31 @@ export type PostType = {
     likesCount: number
 }
 export type MyPostsContainerPropsType = {
-    store: any
+    // store: any
 }
 
 const MyPostsContainer: React.FC<MyPostsContainerPropsType> = (props) => {
-    const state: AppRootStateType = props.store.getState();
 
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-    const addPost = () => {
-        props.store.dispatch(addPostAC());
-    }
+    return <StoreContext.Consumer>
+        {
+            store => {
+                const state: AppRootStateType = store.getState();
+                const addPost = () => {
+                    store.dispatch(addPostAC());
+                }
 
-    const updatePost = (text: string | null) => {
-        props.store.dispatch(updatePostAC(text));
-    }
+                const updatePost = (text: string | null) => {
+                    store.dispatch(updatePostAC(text));
+                }
+                return <MyPosts posts={state.profilePage.posts} newPostText={state.profilePage.newPostText}
+                                addPost={addPost}
+                                updatePost={updatePost}/>;
+            }
+        }
+    </StoreContext.Consumer>
 
-    return <MyPosts posts={state.profilePage.posts} newPostText={state.profilePage.newPostText} addPost={addPost}
-                    updatePost={updatePost}/>;
+
 };
 
 export default MyPostsContainer;

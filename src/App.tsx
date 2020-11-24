@@ -7,19 +7,19 @@ import {Route} from 'react-router-dom';
 import DialogsContainer from './components/dialogs/DialogsContainer';
 
 export type AppPropsType = {
-    store: any
+    // store: any
 }
 
 const App: React.FC<AppPropsType> = (props) => {
-    const {store} = props;
+    // const {store} = props;
     return (
         <div className={'app-wrapper'}>
             <Header/>
             <Navbar/>
             <div className={'app-wrapper-content'}>
                 <Route path={'/profile'}
-                       render={() => <Profile store={store}/>}/>
-                <Route path={'/dialogs'} render={() => <DialogsContainer store={store}/>}/>
+                       render={() => <Profile/>}/>
+                <Route path={'/dialogs'} render={() => <DialogsContainer/>}/>
             </div>
         </div>
     );
