@@ -4,12 +4,13 @@ type AddMessageACType = ReturnType<typeof addMessageAC>;
 type UpdateMessageACType = ReturnType<typeof updateMessageAC>;
 export type DialogsActionsType = AddMessageACType | UpdateMessageACType
 
-type DialogsStateType = {
-    dialogs: Array<DialogType>
-    messages: Array<MessageType>
-    newMessText: string
-}
-const initialState: DialogsStateType = {
+type DialogsStateType = typeof initialState;
+//     {
+//     dialogs: Array<DialogType>
+//     messages: Array<MessageType>
+//     newMessText: string
+// }
+const initialState = {
     dialogs: [
         {id: 1, name: 'Alex'},
         {id: 2, name: 'Sveta'},

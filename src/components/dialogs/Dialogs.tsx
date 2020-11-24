@@ -2,8 +2,6 @@ import React, {useRef} from 'react';
 import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
-import { addMessageAC, updateMessageAC} from "../../redux/dialogs-reducer";
-import {ActionsType} from "../../redux/store";
 
 export type DialogType = {
     id: number
@@ -19,17 +17,19 @@ export type DialogsPropsType = {
         messages: Array<MessageType>
         newMessText: string
     }
-    dispatch: (action: ActionsType) => void;
+    addMessage: () => void
+    updateMessage: (text: string) => void
 }
-const Dialogs: React.FC<DialogsPropsType> = ({data: {dialogs, messages, newMessText}, dispatch}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({data: {dialogs, messages, newMessText}, addMessage, updateMessage}) => {
+
     const messageRef = useRef<HTMLTextAreaElement>(null);
 
-    const addMessage = () => {
-        dispatch(addMessageAC());
+    const onAddMessage = () => {
+        addMessage();
     }
     const onChangeMess = () => {
         const text = messageRef && messageRef.current && messageRef.current.value;
-        dispatch(updateMessageAC(text as string));
+        updateMessage(text as string);
     }
     return (
         <div className={styles.dialogs}>
@@ -44,7 +44,7 @@ const Dialogs: React.FC<DialogsPropsType> = ({data: {dialogs, messages, newMessT
                 }
                 <div>
                     <textarea ref={messageRef} value={newMessText} onChange={onChangeMess}></textarea>
-                    <button onClick={addMessage}>Add Message</button>
+                    <button onClick={onAddMessage}>Add Message</button>
                 </div>
             </div>
         </div>

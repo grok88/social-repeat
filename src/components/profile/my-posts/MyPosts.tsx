@@ -1,8 +1,6 @@
 import React, {useRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
-import {addPostAC, updatePostAC} from "../../../redux/profile-reducer";
-import {ActionsType} from "../../../redux/store";
 
 export type PostType = {
     id: number
@@ -12,19 +10,20 @@ export type PostType = {
 export type MyPostsPropsType = {
     posts: Array<PostType>
     newPostText: string
-    dispatch: (action: ActionsType) => void;
+    addPost: () => void
+    updatePost: (text: string | null) => void
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const addPost = () => {
-        props.dispatch(addPostAC());
+    const onAddPost = () => {
+        props.addPost();
     }
 
-    const updatePost = () => {
+    const onUpdatePost = () => {
         let text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
         if (textAreaRef && textAreaRef.current) {
-            props.dispatch(updatePostAC(text));
+            props.updatePost(text)
         }
 
     }
@@ -32,8 +31,8 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
         <div className={styles.myPostsBlock}>
             my Posts
             <div>
-                <textarea ref={textAreaRef} value={props.newPostText} onChange={updatePost}></textarea>
-                <button onClick={addPost}>add Post</button>
+                <textarea ref={textAreaRef} value={props.newPostText} onChange={onUpdatePost}></textarea>
+                <button onClick={onAddPost}>add Post</button>
             </div>
             {
                 props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>)
