@@ -6,7 +6,7 @@ import Profile from "./components/profile/Profile";
 import Dialogs, {DialogType, MessageType} from "./components/dialogs/Dialogs";
 import {Route} from 'react-router-dom';
 import {PostType} from './components/profile/my-posts/MyPosts';
-import {ActionsType} from "./redux/state";
+import {ActionsType} from "./redux/store";
 
 export type AppPropsType = {
     state: {

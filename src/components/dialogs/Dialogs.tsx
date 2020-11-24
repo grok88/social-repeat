@@ -3,7 +3,7 @@ import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
 import { addMessageAC, updateMessageAC} from "../../redux/dialogs-reducer";
-import {ActionsType} from "../../redux/state";
+import {ActionsType} from "../../redux/store";
 
 export type DialogType = {
     id: number

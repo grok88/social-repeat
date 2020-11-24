@@ -2,7 +2,7 @@ import React, {useRef} from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
 import {addPostAC, updatePostAC} from "../../../redux/profile-reducer";
-import {ActionsType} from "../../../redux/state";
+import {ActionsType} from "../../../redux/store";
 
 export type PostType = {
     id: number
@@ -17,7 +17,6 @@ export type MyPostsPropsType = {
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    console.log(props.newPostText)
     const addPost = () => {
         props.dispatch(addPostAC());
     }

@@ -8,8 +8,16 @@ type ProfileStateType = {
     posts: Array<PostType>
     newPostText: string
 }
+const initialState:ProfileStateType = {
+    posts: [
+        {id: 1, message: 'This is Sparta', likesCount: 5},
+        {id: 2, message: 'Wow, You are big', likesCount: 6},
+        {id: 3, message: 'Wow, I am good', likesCount: 7},
+    ],
+    newPostText: ''
+}
 
-export const profileReducer = (state: ProfileStateType, action: ProfileActionsType): ProfileStateType => {
+export const profileReducer = (state: ProfileStateType = initialState, action: ProfileActionsType): ProfileStateType => {
     switch (action.type) {
         case 'ADD-POST':
             const newPost: PostType = {
