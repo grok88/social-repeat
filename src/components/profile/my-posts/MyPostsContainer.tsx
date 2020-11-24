@@ -1,8 +1,8 @@
-import React from 'react';
 import {addPostAC, updatePostAC} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {AppRootStateType} from "../../../redux/redux-store";
-import {StoreContext} from '././../../../index';
+import {connect} from "react-redux";
+import {Dispatch} from "redux";
 
 
 export type PostType = {
@@ -10,32 +10,32 @@ export type PostType = {
     message: string
     likesCount: number
 }
-export type MyPostsContainerPropsType = {
-    // store: any
+
+
+type MapStateToPropsType = {
+    newPostText: string
+    posts: Array<PostType>
+}
+const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
+    return {
+        newPostText: state.profilePage.newPostText,
+        posts: state.profilePage.posts
+    }
+}
+type MapDispatchToPropsType = {
+    addPost: () => void
+    updatePost: (text: string | null) => void
 }
 
-const MyPostsContainer: React.FC<MyPostsContainerPropsType> = (props) => {
-
-
-    return <StoreContext.Consumer>
-        {
-            store => {
-                const state: AppRootStateType = store.getState();
-                const addPost = () => {
-                    store.dispatch(addPostAC());
-                }
-
-                const updatePost = (text: string | null) => {
-                    store.dispatch(updatePostAC(text));
-                }
-                return <MyPosts posts={state.profilePage.posts} newPostText={state.profilePage.newPostText}
-                                addPost={addPost}
-                                updatePost={updatePost}/>;
-            }
+const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
+    return {
+        addPost: () => {
+            dispatch(addPostAC());
+        },
+        updatePost: (text: string | null) => {
+            dispatch(updatePostAC(text));
         }
-    </StoreContext.Consumer>
-
-
-};
-
+    }
+}
+const MyPostsContainer = connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppRootStateType>(mapStateToProps, mapDispatchToProps)(MyPosts);
 export default MyPostsContainer;

@@ -1,10 +1,8 @@
-import {DialogType, MessageType} from "../components/dialogs/Dialogs";
-
 type AddMessageACType = ReturnType<typeof addMessageAC>;
 type UpdateMessageACType = ReturnType<typeof updateMessageAC>;
 export type DialogsActionsType = AddMessageACType | UpdateMessageACType
 
-type DialogsStateType = typeof initialState;
+export type DialogsStateType = typeof initialState;
 //     {
 //     dialogs: Array<DialogType>
 //     messages: Array<MessageType>
@@ -17,6 +15,7 @@ const initialState = {
         {id: 3, name: 'Sergey'},
         {id: 4, name: 'Tanya'},
     ],
+
     messages: [
         {id: 1, message: 'This is Sparta!'},
         {id: 2, message: 'I likes WoW'},

@@ -12,7 +12,7 @@ export type MessageType = {
     message: string
 }
 export type DialogsPropsType = {
-    data: {
+    dialogsPage: {
         dialogs: Array<DialogType>
         messages: Array<MessageType>
         newMessText: string
@@ -20,7 +20,7 @@ export type DialogsPropsType = {
     addMessage: () => void
     updateMessage: (text: string) => void
 }
-const Dialogs: React.FC<DialogsPropsType> = ({data: {dialogs, messages, newMessText}, addMessage, updateMessage}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage: {dialogs, messages, newMessText}, addMessage, updateMessage}) => {
 
     const messageRef = useRef<HTMLTextAreaElement>(null);
 

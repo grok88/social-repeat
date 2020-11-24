@@ -8,7 +8,7 @@ type ProfileStateType = {
     posts: Array<PostType>
     newPostText: string
 }
-const initialState:ProfileStateType = {
+const initialState: ProfileStateType = {
     posts: [
         {id: 1, message: 'This is Sparta', likesCount: 5},
         {id: 2, message: 'Wow, You are big', likesCount: 6},
@@ -26,13 +26,19 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
                 likesCount: 0
             };
 
-            state.posts.push(newPost);
-            state.newPostText = '';
-            return state;
+            // state.posts.push(newPost);
+            // state.newPostText = '';
+            // return state;
+            return {
+                ...state,
+                posts: [newPost, ...state.posts.map(p => ({...p}))],
+                newPostText: ''
+            }
         case 'UPDATE-POST':
-            // @ts-ignore
-            state.newPostText = action.message;
-            return state;
+            return {
+                ...state,
+                newPostText: action.message as string
+            }
         default:
             return state;
     }
