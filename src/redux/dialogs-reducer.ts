@@ -30,13 +30,17 @@ export const dialogsReducer = (state: DialogsStateType = initialState, action: D
                 id: state.messages.length + 1,
                 message: state.newMessText
             }
-            state.messages.push(newMess);
-            state.newMessText = '';
-            return state;
+            return {
+                ...state,
+                messages: [...state.messages.map(m => ({...m})), newMess],
+                newMessText: ''
+            }
+
         case 'UPDATE-MESSAGE':
-            // @ts-ignore
-            state.newMessText = action.value;
-            return state;
+            return {
+                ...state,
+                newMessText: action.value
+            }
         default:
             return state;
     }
