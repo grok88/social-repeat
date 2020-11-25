@@ -5,19 +5,18 @@ type SetUsersACType = ReturnType<typeof setUsersAC>;
 export type UsersActionsType = FollowACType | UnFollowACType | SetUsersACType;
 
 type UsersStateType = typeof initialState;
-export type User = {
+export type UserType = {
     id: number
-    userUrl: string
-    fullName: string
-    status: string
-    location: {
-        city: string
-        country: string
+    name: string
+    status: string | null
+    photos: {
+        small: string | null
+        large: string | null
     }
     followed: boolean
 }
 const initialState = {
-    users: [] as Array<User>,
+    users: [] as Array<UserType>,
 }
 
 export const usersReducer = (state: UsersStateType = initialState, action: UsersActionsType): UsersStateType => {
@@ -69,7 +68,7 @@ export const followAC = (userId: number) => {
 export const unFollowAC = (userId: number) => {
     return {type: 'UNFOLLOW', userId} as const;
 }
-export const setUsersAC = (users: Array<User>) => {
+export const setUsersAC = (users: Array<UserType>) => {
     return {
         type: 'SET-USERS',
         users
