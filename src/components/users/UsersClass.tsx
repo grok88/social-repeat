@@ -22,9 +22,8 @@ type UsersPropsType = {
 }
 
 export class Users extends Component<UsersPropsType, any> {
-    constructor(props: UsersPropsType) {
-        super(props);
-        alert('rtt')
+
+    componentDidMount() {
         axiosInstance.get<getUsersRespType>('users')
             .then(res => {
                 this.props.setUsers(res.data.items);
