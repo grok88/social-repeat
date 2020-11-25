@@ -36,7 +36,7 @@ export const Users: React.FC<UsersPropsType> = (props) => {
             users.map(u => <div key={u.id}>
                 <div>
                     <div className={styles.avatarImg}>
-                        <img src={u.photos.small ? u.photos.small : avatar}/>
+                        <img src={u.photos.small ? u.photos.small : avatar} alt={'User avatar'}/>
                     </div>
                     <div>
                         {
