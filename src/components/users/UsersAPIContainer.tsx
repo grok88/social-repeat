@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {UserType} from "../../redux/users-reducer";
 import axios from 'axios'
 import {Users} from "./Users";
+import {Preloader} from '../common/preloader/Preloader';
 
 const axiosInstance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -23,22 +24,28 @@ type UsersPropsType = {
     currentPage: number
     changeCurrent: (currentPage: number) => void
     setTotalUserCount: (totalCount: number) => void
+    isFetching: boolean
+    setIsFetching: (isFetching: boolean) => void
 }
 
 export class UsersAPIContainer extends Component<UsersPropsType, any> {
 
     componentDidMount() {
+        this.props.setIsFetching(true);
         axiosInstance.get<getUsersRespType>(`users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(res => {
+                this.props.setIsFetching(false);
                 this.props.setUsers(res.data.items);
                 this.props.setTotalUserCount(res.data.totalCount);
             })
     }
 
     changePageCurrent = (currentPage: number) => {
+        this.props.setIsFetching(true);
         this.props.changeCurrent(currentPage);
         axiosInstance.get<getUsersRespType>(`users?page=${currentPage}&count=${this.props.pageSize}`)
             .then(res => {
+                this.props.setIsFetching(false);
                 this.props.setUsers(res.data.items);
             })
     }
@@ -50,44 +57,12 @@ export class UsersAPIContainer extends Component<UsersPropsType, any> {
         for (let i = 1; i <= pageCount; i++) {
             pages.push(i);
         }
-        return <Users users={this.props.users} follow={this.props.follow} unFollow={this.props.unFollow} pages={pages}
-                      currentPage={this.props.currentPage}
-                      changeCurrent={this.changePageCurrent}/>
-        // return <div>
-        //     <div>
-        //         {
-        //             pages.map(p => {
-        //                 return <span key={p}
-        //                              className={this.props.currentPage === p ? styles.currentPage : ''}
-        //                              onClick={() => this.changeCurrent(p)}
-        //                 >{p}</span>
-        //             })
-        //         }
-        //     </div>
-        //     {
-        //         this.props.users.map(u => <div key={u.id + u.name + Math.random()}>
-        //             <div>
-        //                 <div className={styles.avatarImg}>
-        //                     <img src={u.photos.small ? u.photos.small : avatar} alt={'User avatar'}/>
-        //                 </div>
-        //                 <div>
-        //                     {
-        //                         u.followed ? <button onClick={() => this.props.unFollow(u.id)}>Follow</button> :
-        //                             <button onClick={() => this.props.follow(u.id)}>Unfollow</button>
-        //                     }
-        //                 </div>
-        //             </div>
-        //             <div>
-        //                 <div>
-        //                     {u.name}
-        //                 </div>
-        //                 <div>{u.status ? u.status : 'Not status'}</div>
-        //                 <div>{'u.location.country'}</div>
-        //                 <div>{'u.location.city'}</div>
-        //             </div>
-        //
-        //         </div>)
-        //     }
-        // </div>
+        return <> {
+            this.props.isFetching ? <Preloader/> :
+                <Users users={this.props.users} follow={this.props.follow} unFollow={this.props.unFollow} pages={pages}
+                       currentPage={this.props.currentPage}
+                       changeCurrent={this.changePageCurrent}/>
+        }
+        </>
     }
 }

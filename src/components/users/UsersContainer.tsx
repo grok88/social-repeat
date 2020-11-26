@@ -1,7 +1,15 @@
-import { UsersAPIContainer} from "./UsersAPIContainer";
+import {UsersAPIContainer} from "./UsersAPIContainer";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
-import {followAC, setCurrentAC, setTotalUserCountAC, setUsersAC, unFollowAC, UserType} from '../../redux/users-reducer';
+import {
+    followAC,
+    setCurrentAC,
+    setIsFetchingAC,
+    setTotalUserCountAC,
+    setUsersAC,
+    unFollowAC,
+    UserType
+} from '../../redux/users-reducer';
 import {Dispatch} from "redux";
 
 type MapStateToPropsType = {
@@ -9,13 +17,15 @@ type MapStateToPropsType = {
     pageSize: number
     totalUserCount: number
     currentPage: number
+    isFetching: boolean
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
         users: state.usersPage.users,
         pageSize: state.usersPage.pageSize,
         totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage
+        currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching
     }
 }
 type MapDispatchToPropsType = {
@@ -23,7 +33,8 @@ type MapDispatchToPropsType = {
     unFollow: (userId: number) => void
     setUsers: (users: Array<UserType>) => void
     changeCurrent: (currentPage: number) => void
-    setTotalUserCount:(totalCount:number) => void
+    setTotalUserCount: (totalCount: number) => void
+    setIsFetching: (isFetching: boolean) => void
 }
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
@@ -39,8 +50,11 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
         changeCurrent: (currentPage: number) => {
             dispatch(setCurrentAC(currentPage));
         },
-        setTotalUserCount:(totalCount:number) => {
+        setTotalUserCount: (totalCount: number) => {
             dispatch(setTotalUserCountAC(totalCount));
+        },
+        setIsFetching: (isFetching: boolean) => {
+            dispatch(setIsFetchingAC(isFetching));
         }
     }
 }
