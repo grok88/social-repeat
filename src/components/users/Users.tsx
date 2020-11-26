@@ -1,39 +1,37 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {UserType} from "../../redux/users-reducer";
 import styles from './Users.module.css'
-import axios from 'axios'
 import avatar from './../../assets/images/avatar.png'
 
-const axiosInstance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true
-})
-type getUsersRespType = {
-    totalCount: number
-    error: string
-    items: Array<UserType>
-}
 
 type UsersPropsType = {
     users: Array<UserType>
     follow: (userId: number) => void
     unFollow: (userId: number) => void
-    setUsers: (users: Array<UserType>) => void
+    // setUsers: (users: Array<UserType>) => void
+    pages:Array<number>
+    // pageSize:number
+    // totalUserCount:number
+    currentPage:number
+    changeCurrent:(current:number) => void
 }
 export const Users: React.FC<UsersPropsType> = (props) => {
-    const {users, follow, setUsers, unFollow} = props;
+    const {users, follow,  unFollow,pages,changeCurrent,currentPage} = props;
 
-    useEffect(() => {
-        axiosInstance.get<getUsersRespType>('users')
-            .then(res => {
-                setUsers(res.data.items);
-            })
-
-    }, [])
 
     return <div>
+        <div>
+            {
+                pages.map(p => {
+                    return <span key={p}
+                                 className={currentPage === p ? styles.currentPage : ''}
+                                 onClick={() => changeCurrent(p)}
+                    >{p}</span>
+                })
+            }
+        </div>
         {
-            users.map(u => <div key={u.id}>
+            users.map(u => <div key={u.id + u.name + Math.random()}>
                 <div>
                     <div className={styles.avatarImg}>
                         <img src={u.photos.small ? u.photos.small : avatar} alt={'User avatar'}/>

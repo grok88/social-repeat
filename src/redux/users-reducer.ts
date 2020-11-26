@@ -4,7 +4,12 @@ type SetUsersACType = ReturnType<typeof setUsersAC>;
 type SetCurrentACType = ReturnType<typeof setCurrentAC>;
 type SetTotalUserCountACType = ReturnType<typeof setTotalUserCountAC>;
 
-export type UsersActionsType = FollowACType | UnFollowACType | SetUsersACType | SetCurrentACType | SetTotalUserCountACType;
+export type UsersActionsType =
+    FollowACType
+    | UnFollowACType
+    | SetUsersACType
+    | SetCurrentACType
+    | SetTotalUserCountACType;
 
 type UsersStateType = typeof initialState;
 export type UserType = {
@@ -21,7 +26,7 @@ const initialState = {
     users: [] as Array<UserType>,
     pageSize: 10,
     totalUserCount: 0,
-    currentPage: 4
+    currentPage: 1
 }
 
 export const usersReducer = (state: UsersStateType = initialState, action: UsersActionsType): UsersStateType => {

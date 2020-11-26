@@ -1,4 +1,4 @@
-import {Users} from "./UsersClass";
+import { UsersAPIContainer} from "./UsersAPIContainer";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {followAC, setCurrentAC, setTotalUserCountAC, setUsersAC, unFollowAC, UserType} from '../../redux/users-reducer';
@@ -44,4 +44,4 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersAPIContainer);
