@@ -1,3 +1,7 @@
-.avatarImg img{
+.avatarImg img {
     width: 100px;
+}
+
+.currentPage {
+    font-weight: bold;
 }

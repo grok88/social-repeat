@@ -19,21 +19,52 @@ type UsersPropsType = {
     follow: (userId: number) => void
     unFollow: (userId: number) => void
     setUsers: (users: Array<UserType>) => void
+    pageSize: number
+    totalUserCount: number
+    currentPage: number
+    changeCurrent: (currentPage: number) => void
+    setTotalUserCount: (totalCount: number) => void
 }
 
 export class Users extends Component<UsersPropsType, any> {
 
     componentDidMount() {
-        axiosInstance.get<getUsersRespType>('users')
+        axiosInstance.get<getUsersRespType>(`users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.setUsers(res.data.items);
+                this.props.setTotalUserCount(res.data.totalCount);
+            })
+    }
+
+    changeCurrent(currentPage: number) {
+        this.props.changeCurrent(currentPage);
+        axiosInstance.get<getUsersRespType>(`users?page=${currentPage}&count=${this.props.pageSize}`)
             .then(res => {
                 this.props.setUsers(res.data.items);
             })
     }
 
     render() {
+        const pageCount = Math.ceil(this.props.totalUserCount / this.props.pageSize);
+        let pages = [];
+
+        for (let i = 1; i <= pageCount; i++) {
+            pages.push(i);
+        }
+
         return <div>
+            <div>
+                {
+                    pages.map(p => {
+                        return <span key={p}
+                                     className={this.props.currentPage === p ? styles.currentPage : ''}
+                                     onClick={() => this.changeCurrent(p)}
+                        >{p}</span>
+                    })
+                }
+            </div>
             {
-                this.props.users.map(u => <div key={u.id + u.name}>
+                this.props.users.map(u => <div key={u.id + u.name + Math.random()}>
                     <div>
                         <div className={styles.avatarImg}>
                             <img src={u.photos.small ? u.photos.small : avatar} alt={'User avatar'}/>
