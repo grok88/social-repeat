@@ -6,7 +6,10 @@ import {Preloader} from '../common/preloader/Preloader';
 
 export const axiosInstance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true
+    withCredentials: true,
+    headers: {
+        'API-KEY': 'd957613d-94bb-4388-aef0-47e775e83ac5'
+    }
 })
 type getUsersRespType = {
     totalCount: number
