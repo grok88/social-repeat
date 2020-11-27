@@ -4,7 +4,7 @@ import axios from 'axios'
 import {Users} from "./Users";
 import {Preloader} from '../common/preloader/Preloader';
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true
 })

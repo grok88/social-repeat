@@ -2,6 +2,7 @@ import React from 'react';
 import {UserType} from "../../redux/users-reducer";
 import styles from './Users.module.css'
 import avatar from './../../assets/images/avatar.png'
+import {NavLink} from "react-router-dom";
 
 
 type UsersPropsType = {
@@ -9,14 +10,14 @@ type UsersPropsType = {
     follow: (userId: number) => void
     unFollow: (userId: number) => void
     // setUsers: (users: Array<UserType>) => void
-    pages:Array<number>
+    pages: Array<number>
     // pageSize:number
     // totalUserCount:number
-    currentPage:number
-    changeCurrent:(current:number) => void
+    currentPage: number
+    changeCurrent: (current: number) => void
 }
 export const Users: React.FC<UsersPropsType> = (props) => {
-    const {users, follow,  unFollow,pages,changeCurrent,currentPage} = props;
+    const {users, follow, unFollow, pages, changeCurrent, currentPage} = props;
 
 
     return <div>
@@ -33,9 +34,12 @@ export const Users: React.FC<UsersPropsType> = (props) => {
         {
             users.map(u => <div key={u.id + u.name + Math.random()}>
                 <div>
-                    <div className={styles.avatarImg}>
-                        <img src={u.photos.small ? u.photos.small : avatar} alt={'User avatar'}/>
-                    </div>
+                    <NavLink to={'/profile/' + u.id}>
+                        <div className={styles.avatarImg}>
+                            <img src={u.photos.small ? u.photos.small : avatar} alt={'User avatar'}/>
+                        </div>
+                    </NavLink>
+
                     <div>
                         {
                             u.followed ? <button onClick={() => unFollow(u.id)}>Follow</button> :

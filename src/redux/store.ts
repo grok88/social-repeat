@@ -1,3 +1,4 @@
+/*
 import {PostType} from "../components/profile/my-posts/MyPosts";
 import {DialogType, MessageType} from "../components/dialogs/Dialogs";
 import {DialogsActionsType, dialogsReducer} from "./dialogs-reducer";
@@ -60,3 +61,6 @@ export const store = {
 }
 // @ts-ignore
 window.store = store;
+*/
+let name = 'qwert'
+export default name;
