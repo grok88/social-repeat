@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {axiosInstance} from '../users/UsersAPIContainer';
 import Profile from "./Profile";
 import {getProfile} from "../../redux/profile-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
+import { axiosInstance } from '../../api/api';
 
 // type ProfilePropsType = {
 //     profile: getProfileRespType | null

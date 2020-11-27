@@ -1,21 +1,9 @@
 import React, {Component} from 'react';
 import {UserType} from "../../redux/users-reducer";
-import axios from 'axios'
 import {Users} from "./Users";
 import {Preloader} from '../common/preloader/Preloader';
+import {usersAPI} from "../../api/api";
 
-export const axiosInstance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true,
-    headers: {
-        'API-KEY': 'd957613d-94bb-4388-aef0-47e775e83ac5'
-    }
-})
-type getUsersRespType = {
-    totalCount: number
-    error: string
-    items: Array<UserType>
-}
 
 type UsersPropsType = {
     users: Array<UserType>
@@ -35,7 +23,7 @@ export class UsersAPIContainer extends Component<UsersPropsType, any> {
 
     componentDidMount() {
         this.props.setIsFetching(true);
-        axiosInstance.get<getUsersRespType>(`users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
             .then(res => {
                 this.props.setIsFetching(false);
                 this.props.setUsers(res.data.items);
@@ -46,7 +34,7 @@ export class UsersAPIContainer extends Component<UsersPropsType, any> {
     changePageCurrent = (currentPage: number) => {
         this.props.setIsFetching(true);
         this.props.changeCurrent(currentPage);
-        axiosInstance.get<getUsersRespType>(`users?page=${currentPage}&count=${this.props.pageSize}`)
+        usersAPI.getUsers(currentPage, this.props.pageSize)
             .then(res => {
                 this.props.setIsFetching(false);
                 this.props.setUsers(res.data.items);

@@ -3,8 +3,7 @@ import {UserType} from "../../redux/users-reducer";
 import styles from './Users.module.css'
 import avatar from './../../assets/images/avatar.png'
 import {NavLink} from "react-router-dom";
-import {axiosInstance} from "./UsersAPIContainer";
-
+import {followApi} from "../../api/api";
 
 type UsersPropsType = {
     users: Array<UserType>
@@ -44,7 +43,7 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                     <div>
                         {
                             u.followed ? <button onClick={() => {
-                                    axiosInstance.delete<{ resultCode: number, messages: Array<string>, data: {} }>(`follow/` + u.id)
+                                    followApi.unFollow(u.id)
                                         .then(res => {
                                             if (res.data.resultCode === 0) {
                                                 unFollow(u.id)
@@ -52,7 +51,7 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                                         })
                                 }}>Follow</button> :
                                 <button onClick={() => {
-                                    axiosInstance.post<{ resultCode: number, messages: Array<string>, data: {} }>(`follow/` + u.id)
+                                    followApi.follow(u.id)
                                         .then(res => {
                                             if (res.data.resultCode === 0) {
                                                 follow(u.id)
