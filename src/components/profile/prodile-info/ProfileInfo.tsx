@@ -1,11 +1,15 @@
 import React from 'react';
 import styles from "./ProfileInfo.module.css";
 import {getProfileRespType} from "../ProfileContainer";
+import {Preloader} from "../../common/preloader/Preloader";
 
 type PropfileInfoPropsType = {
     profile: getProfileRespType | null
 }
 const ProfileInfo: React.FC<PropfileInfoPropsType> = ({profile}) => {
+    if (!profile) {
+        return <Preloader/>
+    }
     return (
         <div>
             <div className={styles.imgBlock}>
@@ -13,7 +17,7 @@ const ProfileInfo: React.FC<PropfileInfoPropsType> = ({profile}) => {
             </div>
             <div>
                 <div>
-                    <img src={profile?.photos.large}/>
+                    <img src={profile?.photos.large} alt='User photography'/>
                 </div>
                 <div>
                     <p>Name : <span>{profile?.fullName}</span></p>
