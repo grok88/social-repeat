@@ -15,9 +15,11 @@ type UsersPropsType = {
     // totalUserCount:number
     currentPage: number
     changeCurrent: (current: number) => void
+    toggleFollowingInProgress: (userId: number, followingInProgress: boolean) => void
+    followingInProgress: Array<number>
 }
 export const Users: React.FC<UsersPropsType> = (props) => {
-    const {users, follow, unFollow, pages, changeCurrent, currentPage} = props;
+    const {users, follow, unFollow, pages, changeCurrent, currentPage, followingInProgress, toggleFollowingInProgress} = props;
 
 
     return <div>
@@ -43,21 +45,25 @@ export const Users: React.FC<UsersPropsType> = (props) => {
                     <div>
                         {
                             u.followed ? <button onClick={() => {
+                                    toggleFollowingInProgress(u.id, true);
                                     followApi.unFollow(u.id)
                                         .then(res => {
                                             if (res.data.resultCode === 0) {
                                                 unFollow(u.id)
                                             }
+                                            toggleFollowingInProgress(u.id, false);
                                         })
-                                }}>Follow</button> :
+                                }} disabled={followingInProgress.some(id => id === u.id)}>Follow</button> :
                                 <button onClick={() => {
+                                    toggleFollowingInProgress(u.id, true);
                                     followApi.follow(u.id)
                                         .then(res => {
                                             if (res.data.resultCode === 0) {
                                                 follow(u.id)
                                             }
+                                            toggleFollowingInProgress(u.id, false);
                                         })
-                                }}>Unfollow</button>
+                                }} disabled={followingInProgress.some(id => id === u.id)}>Unfollow</button>
                         }
                     </div>
                 </div>

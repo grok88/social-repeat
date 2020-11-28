@@ -17,6 +17,8 @@ type UsersPropsType = {
     setTotalUserCount: (totalCount: number) => void
     isFetching: boolean
     setIsFetching: (isFetching: boolean) => void
+    toggleFollowingInProgress: (userId: number, followingInProgress: boolean) => void
+    followingInProgress: Array<number>
 }
 
 export class UsersAPIContainer extends Component<UsersPropsType, any> {
@@ -52,7 +54,11 @@ export class UsersAPIContainer extends Component<UsersPropsType, any> {
             this.props.isFetching ? <Preloader/> :
                 <Users users={this.props.users} follow={this.props.follow} unFollow={this.props.unFollow} pages={pages}
                        currentPage={this.props.currentPage}
-                       changeCurrent={this.changePageCurrent}/>
+                       changeCurrent={this.changePageCurrent}
+                       followingInProgress={this.props.followingInProgress}
+                       toggleFollowingInProgress={this.props.toggleFollowingInProgress}
+
+                />
         }
         </>
     }

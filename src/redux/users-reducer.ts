@@ -4,6 +4,7 @@ type SetUsersACType = ReturnType<typeof setUsers>;
 type SetCurrentACType = ReturnType<typeof changeCurrent>;
 type SetTotalUserCountACType = ReturnType<typeof setTotalUserCount>;
 type SetIsFetchingACType = ReturnType<typeof setIsFetching>;
+type ToggleFollowingInProgressACType = ReturnType<typeof toggleFollowingInProgress>;
 
 export type UsersActionsType =
     FollowACType
@@ -11,7 +12,8 @@ export type UsersActionsType =
     | SetUsersACType
     | SetCurrentACType
     | SetTotalUserCountACType
-    |SetIsFetchingACType;
+    | SetIsFetchingACType
+    |ToggleFollowingInProgressACType;
 
 type UsersStateType = typeof initialState;
 export type UserType = {
@@ -29,7 +31,8 @@ const initialState = {
     pageSize: 10,
     totalUserCount: 0,
     currentPage: 1,
-    isFetching:false
+    isFetching: false,
+    followingInProgress: [] as number[]
 }
 
 export const usersReducer = (state: UsersStateType = initialState, action: UsersActionsType): UsersStateType => {
@@ -82,6 +85,11 @@ export const usersReducer = (state: UsersStateType = initialState, action: Users
                 ...state,
                 isFetching: action.isFetching
             }
+        case "TOGGLE-FOLLOWING-IN-PROGRESS":
+            return {
+                ...state,
+                followingInProgress: action.followingInProgress ? [ ...state.followingInProgress, action.userId] : state.followingInProgress.filter(id => id !== action.userId)
+            }
         default:
             return state;
     }
@@ -114,9 +122,16 @@ export const setTotalUserCount = (totalUserCount: number) => {
         totalUserCount
     } as const
 }
-export const setIsFetching = (isFetching:boolean) => {
+export const setIsFetching = (isFetching: boolean) => {
     return {
         type: 'TOGGLE-IS-FETCHING',
         isFetching
+    } as const
+}
+export const toggleFollowingInProgress = (userId:number, followingInProgress : boolean) => {
+    return {
+        type: 'TOGGLE-FOLLOWING-IN-PROGRESS',
+        userId,
+        followingInProgress
     } as const
 }
