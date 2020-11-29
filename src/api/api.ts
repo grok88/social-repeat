@@ -15,6 +15,26 @@ type getUsersRespType = {
     error: string
     items: Array<UserType>
 }
+export type getProfileRespType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: {
+        github: string
+        vk: string
+        facebook: string
+        instagram: string
+        twitter: string
+        website: string
+        youtube: string
+        mainLink: string
+    }
+    photos: {
+        small: string
+        large: string
+    }
+}
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number) {
         return axiosInstance.get<getUsersRespType>(`users?page=${currentPage}&count=${pageSize}`)
@@ -25,6 +45,9 @@ export const usersAPI = {
     unFollow(userId: number) {
         return axiosInstance.delete<FollowCommonType>(`follow/` + userId)
     },
+    getProfile(userId:number){
+        return axiosInstance.get<getProfileRespType>(`profile/` + userId)
+    }
 }
 
 //----------AUTH API -----------------

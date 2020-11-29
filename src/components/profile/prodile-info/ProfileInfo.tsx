@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from "./ProfileInfo.module.css";
-import {getProfileRespType} from "../ProfileContainer";
 import {Preloader} from "../../common/preloader/Preloader";
+import {getProfileRespType} from "../../../api/api";
 
 type PropfileInfoPropsType = {
     profile: getProfileRespType | null

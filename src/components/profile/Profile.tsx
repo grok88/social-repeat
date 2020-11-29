@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Profile.module.css'
 import ProfileInfo from "./prodile-info/ProfileInfo";
 import MyPostsContainer from "./my-posts/MyPostsContainer";
-import {getProfileRespType} from "./ProfileContainer";
+import {getProfileRespType} from "../../api/api";
 
 type ProfilePropsType = {
     // store: any

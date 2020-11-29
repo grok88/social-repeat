@@ -1,15 +1,16 @@
 import {PostType} from "../components/profile/my-posts/MyPosts";
-import { getProfileRespType } from "../components/profile/ProfileContainer";
+import {Dispatch} from "redux";
+import {getProfileRespType, usersAPI} from "../api/api";
 
 type AddPostACType = ReturnType<typeof addPostAC>;
 type UpdatePostACType = ReturnType<typeof updatePostAC>;
-type GetProfileACType = ReturnType<typeof getProfile>;
+type GetProfileACType = ReturnType<typeof getProfileAC>;
 export type ProfileActionsType = AddPostACType | UpdatePostACType | GetProfileACType;
 
 type ProfileStateType = {
     posts: Array<PostType>
     newPostText: string
-    profile:getProfileRespType | null
+    profile: getProfileRespType | null
 }
 const initialState: ProfileStateType = {
     posts: [
@@ -18,7 +19,7 @@ const initialState: ProfileStateType = {
         {id: 3, message: 'Wow, I am good', likesCount: 7},
     ],
     newPostText: '',
-    profile:null
+    profile: null
 }
 
 export const profileReducer = (state: ProfileStateType = initialState, action: ProfileActionsType): ProfileStateType => {
@@ -42,13 +43,14 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
         case "GET-PROFILE":
             return {
                 ...state,
-                profile:action.profile
+                profile: action.profile
             }
         default:
             return state;
     }
 }
 
+//actions
 export const addPostAC = () => {
     return {
         type: 'ADD-POST'
@@ -57,6 +59,14 @@ export const addPostAC = () => {
 export const updatePostAC = (message: string | null) => {
     return {type: 'UPDATE-POST', message} as const;
 }
-export const getProfile = (profile:getProfileRespType) => {
+export const getProfileAC = (profile: getProfileRespType) => {
     return {type: 'GET-PROFILE', profile} as const;
+}
+
+// thunks
+export const getProfile = (userId: number) => (dispatch: Dispatch) => {
+    usersAPI.getProfile(userId)
+        .then(res => {
+            dispatch(getProfileAC(res.data));
+        })
 }
