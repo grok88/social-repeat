@@ -34,7 +34,7 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage: {dialogs, messages, n
         updateMessage(text as string);
     }
 
-    if(!isAuth) return <Redirect to={'/login'}/>
+    // if(!isAuth) return <Redirect to={'/login'}/>
 
     return (
         <div className={styles.dialogs}>
