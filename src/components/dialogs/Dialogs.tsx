@@ -2,6 +2,7 @@ import React, {useRef} from 'react';
 import styles from './Dialogs.module.css'
 import Dialog from "./dialog/Dialog";
 import Message from "./message/Message";
+import { Redirect } from 'react-router-dom';
 
 export type DialogType = {
     id: number
@@ -19,8 +20,9 @@ export type DialogsPropsType = {
     }
     addMessage: () => void
     updateMessage: (text: string) => void
+    isAuth:boolean
 }
-const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage: {dialogs, messages, newMessText}, addMessage, updateMessage}) => {
+const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage: {dialogs, messages, newMessText}, addMessage, updateMessage,isAuth}) => {
 
     const messageRef = useRef<HTMLTextAreaElement>(null);
 
@@ -31,6 +33,9 @@ const Dialogs: React.FC<DialogsPropsType> = ({dialogsPage: {dialogs, messages, n
         const text = messageRef && messageRef.current && messageRef.current.value;
         updateMessage(text as string);
     }
+
+    if(!isAuth) return <Redirect to={'/login'}/>
+
     return (
         <div className={styles.dialogs}>
             <div className={styles.dialogsItem}>

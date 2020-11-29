@@ -42,7 +42,9 @@ export const setAuthUserData = (payload: AuthRespType) => {
 export const getAuthUserData = () => (dispatch: Dispatch) => {
     authApi.authMe()
         .then(res => {
-            const {email, id, login} = res.data.data;
-            dispatch(setAuthUserData({email, login, userId: id}));
+            if (res.data.resultCode === 0) {
+                const {email, id, login} = res.data.data;
+                dispatch(setAuthUserData({email, login, userId: id}));
+            }
         })
 }

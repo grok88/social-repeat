@@ -10,12 +10,6 @@ type OwnPropsType = MapStateToPropsType & MapDispatchToPropsType;
 class HeaderContainer extends React.Component<OwnPropsType> {
     componentDidMount() {
         this.props.getAuthUserData();
-        // authApi.authMe()
-        //     .then(res => {
-        //         const {email, id, login} = res.data.data;
-        //         this.props.setAuthUserData({email, login, userId: id});
-        //     })
-
     }
 
     render() {

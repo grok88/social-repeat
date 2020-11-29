@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Profile from "./Profile";
 import {getProfile} from "../../redux/profile-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
-import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {Redirect, RouteComponentProps, withRouter} from 'react-router-dom';
 import {getProfileRespType} from '../../api/api';
 
 // type ProfilePropsType = {
@@ -23,28 +23,26 @@ class ProfileContainer extends React.Component<PropsType> {
 
     componentDidMount() {
         let userId = +this.props.match.params.userId
-        // this.props.setIsFetching(true);
         if (!userId) {
             userId = 8886
         }
         this.props.getProfile(userId);
-        // axiosInstance.get<getProfileRespType>(`profile/` + userId)
-        //     .then(res => {
-        //         this.props.getProfile(res.data);
-        //     })
     }
 
     render() {
+        if (!this.props.isAuth) return <Redirect to={'/login'}/>
         return <Profile {...this.props} profile={this.props.profile}/>
     }
 };
 
 type MapStateToPropsType = {
-    profile: getProfileRespType | null
+    profile: getProfileRespType | null,
+    isAuth: boolean
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth
     }
 }
 type MapDispatchToPropsType = {
