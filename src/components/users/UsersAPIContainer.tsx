@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 import {UserType} from "../../redux/users-reducer";
 import {Users} from "./Users";
 import {Preloader} from '../common/preloader/Preloader';
-import {usersAPI} from "../../api/api";
 
 
 type UsersPropsType = {
     users: Array<UserType>
     follow: (userId: number) => void
     unFollow: (userId: number) => void
-    setUsers: (users: Array<UserType>) => void
+    // setUsers: (users: Array<UserType>) => void
     pageSize: number
     totalUserCount: number
     currentPage: number
@@ -19,28 +18,19 @@ type UsersPropsType = {
     setIsFetching: (isFetching: boolean) => void
     toggleFollowingInProgress: (userId: number, followingInProgress: boolean) => void
     followingInProgress: Array<number>
+
+    getUsers: (currentPage: number, pageSize: number) => void
+    changePage: (currentPage: number, pageSize: number) => void
 }
 
 export class UsersAPIContainer extends Component<UsersPropsType, any> {
 
     componentDidMount() {
-        this.props.setIsFetching(true);
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-            .then(res => {
-                this.props.setIsFetching(false);
-                this.props.setUsers(res.data.items);
-                this.props.setTotalUserCount(res.data.totalCount);
-            })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     changePageCurrent = (currentPage: number) => {
-        this.props.setIsFetching(true);
-        this.props.changeCurrent(currentPage);
-        usersAPI.getUsers(currentPage, this.props.pageSize)
-            .then(res => {
-                this.props.setIsFetching(false);
-                this.props.setUsers(res.data.items);
-            })
+        this.props.changePage(currentPage, this.props.pageSize);
     }
 
     render() {
@@ -57,7 +47,6 @@ export class UsersAPIContainer extends Component<UsersPropsType, any> {
                        changeCurrent={this.changePageCurrent}
                        followingInProgress={this.props.followingInProgress}
                        toggleFollowingInProgress={this.props.toggleFollowingInProgress}
-
                 />
         }
         </>

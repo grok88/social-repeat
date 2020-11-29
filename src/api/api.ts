@@ -18,7 +18,13 @@ type getUsersRespType = {
 export const usersAPI = {
     getUsers(currentPage: number, pageSize: number) {
         return axiosInstance.get<getUsersRespType>(`users?page=${currentPage}&count=${pageSize}`)
-    }
+    },
+    follow(userId: number) {
+        return axiosInstance.post<FollowCommonType>(`follow/` + userId)
+    },
+    unFollow(userId: number) {
+        return axiosInstance.delete<FollowCommonType>(`follow/` + userId)
+    },
 }
 
 //----------AUTH API -----------------
@@ -39,12 +45,3 @@ export const authApi = {
 //----------FOLLOW API -----------------
 type FollowCommonType = { resultCode: number, messages: Array<string>, data: {} }
 
-export const followApi = {
-    follow(userId: number) {
-        return axiosInstance.post<FollowCommonType>(`follow/` + userId)
-    },
-    unFollow(userId: number) {
-        return axiosInstance.delete<FollowCommonType>(`follow/` + userId)
-    },
-
-}
