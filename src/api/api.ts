@@ -15,6 +15,20 @@ type getUsersRespType = {
     error: string
     items: Array<UserType>
 }
+
+export const usersAPI = {
+    getUsers(currentPage: number, pageSize: number) {
+        return axiosInstance.get<getUsersRespType>(`users?page=${currentPage}&count=${pageSize}`)
+    },
+    follow(userId: number) {
+        return axiosInstance.post<FollowCommonType>(`follow/` + userId)
+    },
+    unFollow(userId: number) {
+        return axiosInstance.delete<FollowCommonType>(`follow/` + userId)
+    },
+}
+
+//-------Profile API-------------
 export type getProfileRespType = {
     userId: number
     lookingForAJob: boolean
@@ -35,34 +49,34 @@ export type getProfileRespType = {
         large: string
     }
 }
-export const usersAPI = {
-    getUsers(currentPage: number, pageSize: number) {
-        return axiosInstance.get<getUsersRespType>(`users?page=${currentPage}&count=${pageSize}`)
-    },
-    follow(userId: number) {
-        return axiosInstance.post<FollowCommonType>(`follow/` + userId)
-    },
-    unFollow(userId: number) {
-        return axiosInstance.delete<FollowCommonType>(`follow/` + userId)
-    },
-    getProfile(userId:number){
+
+export const profileAPI = {
+    getProfile(userId: number) {
         return axiosInstance.get<getProfileRespType>(`profile/` + userId)
-    }
+    },
+    getStatus(userId: number) {
+        return axiosInstance.get('/profile/status/' + userId)
+    },
+    updateStatus(status: string) {
+        return axiosInstance.put<CommonRespType>('/profile/status/', {status})
+    },
+
 }
 
+
 //----------AUTH API -----------------
-type AuthMeRespType = {
+type CommonRespType<T = {}> = {
     messages: string[]
     resultCode: number
-    data: {
-        id: string,
-        email: string
-        login: string
-    }
+    data: T
 }
 export const authApi = {
     authMe() {
-        return axiosInstance.get<AuthMeRespType>(`auth/me`)
+        return axiosInstance.get<CommonRespType<{
+            id: string,
+            email: string
+            login: string
+        }>>(`auth/me`)
     }
 }
 //----------FOLLOW API -----------------

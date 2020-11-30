@@ -6,8 +6,10 @@ import ProfileStatus from "./ProfileStatus";
 
 type PropfileInfoPropsType = {
     profile: getProfileRespType | null
+    status: string
+    updateStatus: (status: string) => void
 }
-const ProfileInfo: React.FC<PropfileInfoPropsType> = ({profile}) => {
+const ProfileInfo: React.FC<PropfileInfoPropsType> = ({profile, updateStatus, status}) => {
     if (!profile) {
         return <Preloader/>
     }
@@ -20,7 +22,7 @@ const ProfileInfo: React.FC<PropfileInfoPropsType> = ({profile}) => {
                 <div>
                     <img src={profile?.photos.large} alt='User photography'/>
                 </div>
-                <ProfileStatus status={'I am the best!!!'}/>
+                <ProfileStatus status={status} updateStatus={updateStatus}/>
                 <div>
                     <p>Name : <span>{profile?.fullName}</span></p>
                 </div>

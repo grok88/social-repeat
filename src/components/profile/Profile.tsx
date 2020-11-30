@@ -7,12 +7,14 @@ import {getProfileRespType} from "../../api/api";
 type ProfilePropsType = {
     // store: any
     profile:getProfileRespType | null
+    status:string
+    updateStatus : (status:string) =>void
 }
 
 const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <div className={styles.content}>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
             <MyPostsContainer/>
         </div>
     );
