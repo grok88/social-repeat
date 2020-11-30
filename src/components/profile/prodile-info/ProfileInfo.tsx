@@ -2,6 +2,7 @@ import React from 'react';
 import styles from "./ProfileInfo.module.css";
 import {Preloader} from "../../common/preloader/Preloader";
 import {getProfileRespType} from "../../../api/api";
+import ProfileStatus from "./ProfileStatus";
 
 type PropfileInfoPropsType = {
     profile: getProfileRespType | null
@@ -19,6 +20,7 @@ const ProfileInfo: React.FC<PropfileInfoPropsType> = ({profile}) => {
                 <div>
                     <img src={profile?.photos.large} alt='User photography'/>
                 </div>
+                <ProfileStatus status={'I am the best!!!'}/>
                 <div>
                     <p>Name : <span>{profile?.fullName}</span></p>
                 </div>
