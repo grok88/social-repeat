@@ -58,7 +58,7 @@ export default compose<React.ComponentType>(
         updateStatus
     }),
     withRouter,
-    withAuthRedirect
+    // withAuthRedirect
 )(ProfileContainer);
 
 // // hoc REdirect
