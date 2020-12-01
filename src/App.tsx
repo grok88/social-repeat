@@ -6,7 +6,7 @@ import DialogsContainer from './components/dialogs/DialogsContainer';
 import UsersContainer from './components/users/UsersContainer';
 import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
-import { Login } from './components/login/Login';
+import  Login from './components/login/Login';
 
 export type AppPropsType = {
     // store: any

@@ -55,10 +55,10 @@ export const profileAPI = {
         return axiosInstance.get<getProfileRespType>(`profile/` + userId)
     },
     getStatus(userId: number) {
-        return axiosInstance.get('/profile/status/' + userId)
+        return axiosInstance.get('profile/status/' + userId)
     },
     updateStatus(status: string) {
-        return axiosInstance.put<CommonRespType>('/profile/status/', {status})
+        return axiosInstance.put<CommonRespType>('profile/status/', {status})
     },
 
 }
@@ -77,7 +77,13 @@ export const authApi = {
             email: string
             login: string
         }>>(`auth/me`)
-    }
+    },
+    login(email:string,password:string,rememberMe:boolean){
+        return axiosInstance.post<CommonRespType<{userId:string}>>('auth/login', { email, password, rememberMe})
+    },
+    logOut(){
+        return axiosInstance.delete('auth/login' )
+    },
 }
 //----------FOLLOW API -----------------
 type FollowCommonType = { resultCode: number, messages: Array<string>, data: {} }
