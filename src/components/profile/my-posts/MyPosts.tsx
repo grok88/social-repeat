@@ -1,6 +1,7 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
 export type PostType = {
     id: number
@@ -9,36 +10,42 @@ export type PostType = {
 }
 export type MyPostsPropsType = {
     posts: Array<PostType>
-    newPostText: string
-    addPost: () => void
-    updatePost: (text: string | null) => void
+    addPost: (newPostText:string) => void
 }
 
 const MyPosts: React.FC<MyPostsPropsType> = (props) => {
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const onAddPost = () => {
-        props.addPost();
+
+    const onAddPost = (values:FormDataType) => {
+        console.log(values)
+        props.addPost(values.newPostText);
     }
 
-    const onUpdatePost = () => {
-        let text = textAreaRef && textAreaRef.current && textAreaRef.current.value;
-        if (textAreaRef && textAreaRef.current) {
-            props.updatePost(text)
-        }
-
-    }
     return (
         <div className={styles.myPostsBlock}>
             my Posts
-            <div>
-                <textarea ref={textAreaRef} value={props.newPostText} onChange={onUpdatePost}></textarea>
-                <button onClick={onAddPost}>add Post</button>
-            </div>
+
             {
                 props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>)
             }
+            <MyPostReduxForm onSubmit={onAddPost}/>
         </div>
     );
 };
+type FormDataType = {
+    newPostText: string
+}
+
+const MyPostForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+
+    return <form onSubmit={props.handleSubmit}>
+        <Field component={'textarea'} placeholder={'Enter new message'} name={'newPostText'}></Field>
+        <button type={'submit'}>add Post</button>
+    </form>
+}
+
+const MyPostReduxForm = reduxForm<FormDataType>({
+    // a unique name for the form
+    form: 'appPostMessageForm'
+})(MyPostForm)
 
 export default MyPosts;

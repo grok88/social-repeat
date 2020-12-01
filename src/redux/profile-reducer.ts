@@ -3,15 +3,13 @@ import {Dispatch} from "redux";
 import {getProfileRespType, profileAPI} from "../api/api";
 
 type AddPostACType = ReturnType<typeof addPostAC>;
-type UpdatePostACType = ReturnType<typeof updatePostAC>;
 type GetProfileACType = ReturnType<typeof getProfileAC>;
 type SetStatusACType = ReturnType<typeof setStatus>;
 
-export type ProfileActionsType = AddPostACType | UpdatePostACType | GetProfileACType | SetStatusACType;
+export type ProfileActionsType = AddPostACType | GetProfileACType | SetStatusACType;
 
 type ProfileStateType = {
     posts: Array<PostType>
-    newPostText: string
     profile: getProfileRespType | null
     status: string
 }
@@ -21,7 +19,6 @@ const initialState: ProfileStateType = {
         {id: 2, message: 'Wow, You are big', likesCount: 6},
         {id: 3, message: 'Wow, I am good', likesCount: 7},
     ],
-    newPostText: '',
     profile: null,
     status: ''
 }
@@ -31,18 +28,12 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
         case 'ADD-POST':
             const newPost: PostType = {
                 id: state.posts.length + 1,
-                message: state.newPostText,
+                message: action.newPostText,
                 likesCount: 0
             };
             return {
                 ...state,
-                posts: [newPost, ...state.posts.map(p => ({...p}))],
-                newPostText: ''
-            }
-        case 'UPDATE-POST':
-            return {
-                ...state,
-                newPostText: action.message as string
+                posts: [newPost, ...state.posts.map(p => ({...p}))]
             }
         case "GET-PROFILE":
             return {
@@ -60,13 +51,11 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
 }
 
 //actions
-export const addPostAC = () => {
+export const addPostAC = (newPostText: string) => {
     return {
-        type: 'ADD-POST'
+        type: 'ADD-POST',
+        newPostText
     } as const;
-}
-export const updatePostAC = (message: string | null) => {
-    return {type: 'UPDATE-POST', message} as const;
 }
 export const getProfileAC = (profile: getProfileRespType) => {
     return {type: 'GET-PROFILE', profile} as const;
@@ -89,10 +78,10 @@ export const getStatus = (userId: number) => (dispatch: Dispatch) => {
             dispatch(setStatus(res.data));
         })
 }
-export const updateStatus = (status:string) => (dispatch: Dispatch) => {
+export const updateStatus = (status: string) => (dispatch: Dispatch) => {
     profileAPI.updateStatus(status)
         .then(res => {
-            if(res.data.resultCode === 0){
+            if (res.data.resultCode === 0) {
                 dispatch(setStatus(status));
             }
         })

@@ -1,6 +1,5 @@
 type AddMessageACType = ReturnType<typeof addMessageAC>;
-type UpdateMessageACType = ReturnType<typeof updateMessageAC>;
-export type DialogsActionsType = AddMessageACType | UpdateMessageACType
+export type DialogsActionsType = AddMessageACType;
 
 export type DialogsStateType = typeof initialState;
 //     {
@@ -28,32 +27,20 @@ export const dialogsReducer = (state: DialogsStateType = initialState, action: D
         case 'ADD-MESSAGE':
             const newMess = {
                 id: state.messages.length + 1,
-                message: state.newMessText
+                message: action.newMess
             }
             return {
                 ...state,
-                messages: [...state.messages.map(m => ({...m})), newMess],
-                newMessText: ''
-            }
-
-        case 'UPDATE-MESSAGE':
-            return {
-                ...state,
-                newMessText: action.value
+                messages: [...state.messages.map(m => ({...m})), newMess]
             }
         default:
             return state;
     }
 }
 
-export const addMessageAC = () => {
+export const addMessageAC = (newMess: string) => {
     return {
-        type: 'ADD-MESSAGE'
-    } as const;
-}
-export const updateMessageAC = (value: string) => {
-    return {
-        type: 'UPDATE-MESSAGE',
-        value
+        type: 'ADD-MESSAGE',
+        newMess
     } as const;
 }
