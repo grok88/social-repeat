@@ -3,13 +3,23 @@ import {connect} from "react-redux";
 import {AppRootStateType} from "../../redux/redux-store";
 import {
     changeCurrent,
-    follow, getUsers,
+    changePage,
+    follow,
+    getUsers,
     setIsFetching,
     setTotalUserCount,
-    changePage, toggleFollowingInProgress,
+    toggleFollowingInProgress,
     unFollow,
     UserType
 } from '../../redux/users-reducer';
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUserCount,
+    getUsersSelector
+} from "../../redux/users-selector";
 
 type MapStateToPropsType = {
     users: Array<UserType>
@@ -21,20 +31,20 @@ type MapStateToPropsType = {
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsersSelector(state),
+        pageSize: getPageSize(state),
+        totalUserCount: getTotalUserCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 type MapDispatchToPropsType = {
     follow: (userId: number) => void
     unFollow: (userId: number) => void
 
-    getUsers: (currentPage:number,pageSize:number) => void
-    changePage: (currentPage:number,pageSize:number) => void
+    getUsers: (currentPage: number, pageSize: number) => void
+    changePage: (currentPage: number, pageSize: number) => void
 
     changeCurrent: (currentPage: number) => void
     setTotalUserCount: (totalCount: number) => void
