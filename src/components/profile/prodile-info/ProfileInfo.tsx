@@ -3,6 +3,7 @@ import styles from "./ProfileInfo.module.css";
 import {Preloader} from "../../common/preloader/Preloader";
 import {getProfileRespType} from "../../../api/api";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHook from "./ProfileStatusWithHook";
 
 type PropfileInfoPropsType = {
     profile: getProfileRespType | null
@@ -22,7 +23,7 @@ const ProfileInfo: React.FC<PropfileInfoPropsType> = ({profile, updateStatus, st
                 <div>
                     <img src={profile?.photos.large} alt='User photography'/>
                 </div>
-                <ProfileStatus status={status} updateStatus={updateStatus}/>
+                <ProfileStatusWithHook status={status} updateStatus={updateStatus}/>
                 <div>
                     <p>Name : <span>{profile?.fullName}</span></p>
                 </div>
