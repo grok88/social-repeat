@@ -5,10 +5,11 @@ import {getProfileRespType, profileAPI} from "../api/api";
 type AddPostACType = ReturnType<typeof addPostAC>;
 type GetProfileACType = ReturnType<typeof getProfileAC>;
 type SetStatusACType = ReturnType<typeof setStatus>;
+type DeletePostACType = ReturnType<typeof deleteAC>;
 
-export type ProfileActionsType = AddPostACType | GetProfileACType | SetStatusACType;
+export type ProfileActionsType = AddPostACType | GetProfileACType | SetStatusACType | DeletePostACType;
 
-type ProfileStateType = {
+export type ProfileStateType = {
     posts: Array<PostType>
     profile: getProfileRespType | null
     status: string
@@ -31,9 +32,15 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
                 message: action.newPostText,
                 likesCount: 0
             };
+
             return {
                 ...state,
                 posts: [newPost, ...state.posts.map(p => ({...p}))]
+            }
+        case "DELETE-POST":
+            return {
+                ...state,
+                posts: state.posts.filter(p => p.id !== action.postId)
             }
         case "GET-PROFILE":
             return {
@@ -55,6 +62,12 @@ export const addPostAC = (newPostText: string) => {
     return {
         type: 'ADD-POST',
         newPostText
+    } as const;
+}
+export const deleteAC = (postId:number) => {
+    return {
+        type: 'DELETE-POST',
+        postId
     } as const;
 }
 export const getProfileAC = (profile: getProfileRespType) => {

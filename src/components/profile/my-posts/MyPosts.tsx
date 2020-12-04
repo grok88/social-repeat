@@ -3,7 +3,7 @@ import styles from './MyPosts.module.css'
 import Post from "./Post/Post";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {maxLengthValidator, required} from '../../../utils/validator/validator';
-import { Textarea } from '../../common/formsControls/formsControls';
+import {Textarea} from '../../common/formsControls/formsControls';
 
 export type PostType = {
     id: number
@@ -18,7 +18,9 @@ export type MyPostsPropsType = {
 //validate form field
 const maxLength10 = maxLengthValidator(10);
 
-const MyPosts: React.FC<MyPostsPropsType> = (props) => {
+
+const MyPosts = React.memo((props: MyPostsPropsType) => {
+    console.log('My POSTS')
 
     const onAddPost = (values: FormDataType) => {
         console.log(values)
@@ -28,14 +30,14 @@ const MyPosts: React.FC<MyPostsPropsType> = (props) => {
     return (
         <div className={styles.myPostsBlock}>
             my Posts
-
             {
                 props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>)
             }
             <MyPostReduxForm onSubmit={onAddPost}/>
         </div>
     );
-};
+})
+
 type FormDataType = {
     newPostText: string
 }
