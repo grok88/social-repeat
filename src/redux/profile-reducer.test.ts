@@ -1,4 +1,4 @@
-import {addPostAC, deleteAC, getProfileAC, profileReducer, ProfileStateType, setStatus} from "./profile-reducer";
+import {addPostAC, deleteAC, getProfileAC, profileReducer, ProfileStateType} from "./profile-reducer";
 
 let startState: ProfileStateType;
 

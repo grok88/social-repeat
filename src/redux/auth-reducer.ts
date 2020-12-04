@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import { stopSubmit } from "redux-form";
+import {stopSubmit} from "redux-form";
 import {authApi} from "../api/api";
 
 type SetAuthUserDataACType = ReturnType<typeof setAuthUserData>;
@@ -50,27 +50,23 @@ export const getAuthUserData = () => (dispatch: Dispatch) => {
         })
 }
 
-export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: Dispatch) => {
+    const res = await authApi.login(email, password, rememberMe)
+    if (res.data.resultCode === 0) {
+        // @ts-ignore
+        dispatch(getAuthUserData());
+    } else {
+        const message = res.data.messages.length > 0 ? res.data.messages[0] : 'Some Error';
+        const action = stopSubmit('login', {_error: message});
+        dispatch(action)
+    }
 
-
-    authApi.login(email, password, rememberMe)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                // @ts-ignore
-                dispatch(getAuthUserData());
-            } else {
-                const message = res.data.messages.length > 0 ? res.data.messages[0] : 'Some Error';
-                const action = stopSubmit('login', {_error:message});
-                dispatch(action)
-            }
-        })
 }
-export const logOut = () => (dispatch: Dispatch) => {
-    authApi.logOut()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                // @ts-ignore
-                dispatch(setAuthUserData({email: null, login: null, userId: null, isAuth: false}));
-            }
-        })
+export const logOut = () => async (dispatch: Dispatch) => {
+    const res = await authApi.logOut()
+    if (res.data.resultCode === 0) {
+        // @ts-ignore
+        dispatch(setAuthUserData({email: null, login: null, userId: null, isAuth: false}));
+    }
+
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 import {UserType} from "../../redux/users-reducer";
 import styles from './Users.module.css'
-import avatar from './../../assets/images/avatar.png'
-import {NavLink} from "react-router-dom";
+import {User} from "./User";
 
 type UsersPropsType = {
     users: Array<UserType>
@@ -33,35 +32,8 @@ export const Users: React.FC<UsersPropsType> = (props) => {
             }
         </div>
         {
-            users.map(u => <div key={u.id + u.name + Math.random()}>
-                <div>
-                    <NavLink to={'/profile/' + u.id}>
-                        <div className={styles.avatarImg}>
-                            <img src={u.photos.small ? u.photos.small : avatar} alt={'User avatar'}/>
-                        </div>
-                    </NavLink>
-
-                    <div>
-                        {
-                            u.followed ? <button onClick={() => {
-                                    unFollow(u.id);
-                                }} disabled={followingInProgress.some(id => id === u.id)}>unFollow</button> :
-                                <button onClick={() => {
-                                  follow(u.id);
-                                }} disabled={followingInProgress.some(id => id === u.id)}>Follow</button>
-                        }
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        {u.name}
-                    </div>
-                    <div>{u.status ? u.status : 'Not status'}</div>
-                    <div>{'u.location.country'}</div>
-                    <div>{'u.location.city'}</div>
-                </div>
-
-            </div>)
+            users.map(u => <User key={u.id + u.name + Math.random()} user={u} follow={follow} unFollow={unFollow}
+                                 followingInProgress={followingInProgress}/>)
         }
     </div>
 }

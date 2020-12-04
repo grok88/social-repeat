@@ -64,7 +64,7 @@ export const addPostAC = (newPostText: string) => {
         newPostText
     } as const;
 }
-export const deleteAC = (postId:number) => {
+export const deleteAC = (postId: number) => {
     return {
         type: 'DELETE-POST',
         postId
@@ -78,24 +78,21 @@ export const setStatus = (status: string) => {
 }
 
 // thunks
-export const getProfile = (userId: number) => (dispatch: Dispatch) => {
-    profileAPI.getProfile(userId)
-        .then(res => {
-            dispatch(getProfileAC(res.data));
-        })
+export const getProfile = (userId: number) => async (dispatch: Dispatch) => {
+    const res = await profileAPI.getProfile(userId)
+    dispatch(getProfileAC(res.data));
 }
 
-export const getStatus = (userId: number) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userId)
-        .then(res => {
-            dispatch(setStatus(res.data));
-        })
+export const getStatus = (userId: number) => async (dispatch: Dispatch) => {
+    const res = await profileAPI.getStatus(userId)
+    dispatch(setStatus(res.data));
+
 }
-export const updateStatus = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateStatus(status)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setStatus(status));
-            }
-        })
+export const updateStatus = (status: string) => async(dispatch: Dispatch) => {
+    const res = await profileAPI.updateStatus(status)
+
+    if (res.data.resultCode === 0) {
+        dispatch(setStatus(status));
+    }
+
 }
