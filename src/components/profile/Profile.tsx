@@ -9,12 +9,14 @@ type ProfilePropsType = {
     profile:getProfileRespType | null
     status:string
     updateStatus : (status:string) =>void
+    isOwner:boolean
+    saveFile: (file: any) => void;
 }
 
 const Profile: React.FC<ProfilePropsType> = (props) => {
     return (
         <div className={styles.content}>
-            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus}/>
+            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus} isOwner={props.isOwner} saveFile={props.saveFile}/>
             <MyPostsContainer/>
         </div>
     );

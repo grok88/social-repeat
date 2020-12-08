@@ -60,6 +60,16 @@ export const profileAPI = {
     updateStatus(status: string) {
         return axiosInstance.put<CommonRespType>('profile/status/', {status})
     },
+    savePhoto(file: any) {
+        const data = new FormData()
+        data.append('image', file);
+
+        return axiosInstance.put<CommonRespType<PhotosType>>('profile/photo', data, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+    },
 
 }
 
@@ -78,13 +88,22 @@ export const authApi = {
             login: string
         }>>(`auth/me`)
     },
-    login(email:string,password:string,rememberMe:boolean){
-        return axiosInstance.post<CommonRespType<{userId:string}>>('auth/login', { email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean) {
+        return axiosInstance.post<CommonRespType<{ userId: string }>>('auth/login', {email, password, rememberMe})
     },
-    logOut(){
-        return axiosInstance.delete('auth/login' )
+    logOut() {
+        return axiosInstance.delete('auth/login')
     },
 }
 //----------FOLLOW API -----------------
 type FollowCommonType = { resultCode: number, messages: Array<string>, data: {} }
+
+
+//----------------PROFILE API --------------
+export type PhotosType = {
+    photos: {
+        small: string
+        large: string
+    }
+}
 

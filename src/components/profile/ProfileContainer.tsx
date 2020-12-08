@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Profile from "./Profile";
-import {getProfile, getStatus, updateStatus} from "../../redux/profile-reducer";
+import {getProfile, getStatus, saveFile, updateStatus} from "../../redux/profile-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {getProfileRespType} from '../../api/api';
@@ -19,14 +19,13 @@ type PropsType = RouteComponentProps<PathParamsType> &
 
 
 class ProfileContainer extends React.Component<PropsType> {
-
-    componentDidMount() {
+    refreshProfile() {
         let userId = +this.props.match.params.userId
         if (!userId) {
-            if(this.props.authorizedUserId){
+            if (this.props.authorizedUserId) {
                 userId = +this.props.authorizedUserId;
             }
-            if(!userId){
+            if (!userId) {
                 this.props.history.push('/login')
             }
         }
@@ -34,28 +33,48 @@ class ProfileContainer extends React.Component<PropsType> {
         this.props.getStatus(userId);
     }
 
+    componentDidMount() {
+        this.refreshProfile();
+    }
+
+    componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>, snapshot?: any) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
+            this.refreshProfile();
+        }
+    }
+
+    onSavePhoto = (file: any) => {
+        this.props.saveFile(file);
+    }
+
     render() {
-        return <Profile {...this.props} profile={this.props.profile} status={this.props.status}
-                        updateStatus={this.props.updateStatus}/>
+        return <Profile {...this.props}
+                        profile={this.props.profile}
+                        status={this.props.status}
+                        updateStatus={this.props.updateStatus}
+                        isOwner={!this.props.match.params.userId}
+                        saveFile={this.onSavePhoto}
+        />
     }
 };
 
 type MapStateToPropsType = {
     profile: getProfileRespType | null,
     status: string,
-    authorizedUserId:string | null
+    authorizedUserId: string | null
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
-        authorizedUserId:state.auth.userId
+        authorizedUserId: state.auth.userId
     }
 }
 type MapDispatchToPropsType = {
     getProfile: (userId: number) => void
     getStatus: (userId: number) => void
     updateStatus: (status: string) => void
+    saveFile: (file: any) => void;
 }
 
 
@@ -63,7 +82,8 @@ export default compose<React.ComponentType>(
     connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppRootStateType>(mapStateToProps, {
         getProfile,
         getStatus,
-        updateStatus
+        updateStatus,
+        saveFile
     }),
     withRouter,
     withAuthRedirect

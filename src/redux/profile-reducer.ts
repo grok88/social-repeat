@@ -1,13 +1,20 @@
 import {PostType} from "../components/profile/my-posts/MyPosts";
 import {Dispatch} from "redux";
 import {getProfileRespType, profileAPI} from "../api/api";
+import {AppRootStateType} from "./redux-store";
 
 type AddPostACType = ReturnType<typeof addPostAC>;
 type GetProfileACType = ReturnType<typeof getProfileAC>;
 type SetStatusACType = ReturnType<typeof setStatus>;
 type DeletePostACType = ReturnType<typeof deleteAC>;
+type SavePhotoSuccessACType = ReturnType<typeof savePhotoSuccess>;
 
-export type ProfileActionsType = AddPostACType | GetProfileACType | SetStatusACType | DeletePostACType;
+export type ProfileActionsType =
+    AddPostACType
+    | GetProfileACType
+    | SetStatusACType
+    | DeletePostACType
+    | SavePhotoSuccessACType;
 
 export type ProfileStateType = {
     posts: Array<PostType>
@@ -52,6 +59,12 @@ export const profileReducer = (state: ProfileStateType = initialState, action: P
                 ...state,
                 status: action.status
             }
+        case "SAVE-PHOTO-SUCCESS":
+            return {
+                ...state,
+                profile: action.profile
+            }
+
         default:
             return state;
     }
@@ -76,6 +89,9 @@ export const getProfileAC = (profile: getProfileRespType) => {
 export const setStatus = (status: string) => {
     return {type: 'SET-STATUS', status} as const;
 }
+export const savePhotoSuccess = (profile: getProfileRespType) => {
+    return {type: 'SAVE-PHOTO-SUCCESS', profile} as const;
+}
 
 // thunks
 export const getProfile = (userId: number) => async (dispatch: Dispatch) => {
@@ -88,11 +104,20 @@ export const getStatus = (userId: number) => async (dispatch: Dispatch) => {
     dispatch(setStatus(res.data));
 
 }
-export const updateStatus = (status: string) => async(dispatch: Dispatch) => {
-    const res = await profileAPI.updateStatus(status)
 
+export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
+    const res = await profileAPI.updateStatus(status)
     if (res.data.resultCode === 0) {
         dispatch(setStatus(status));
     }
-
 }
+
+export const saveFile = (file: any) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    const res = await profileAPI.savePhoto(file);
+    if (res.data.resultCode === 0) {
+        const profile = getState().profilePage.profile;
+        console.log('SUCCESS');
+        profile && dispatch(savePhotoSuccess({...profile, photos: res.data.data.photos}));
+    }
+}
+
