@@ -1,5 +1,6 @@
 import axios from "axios";
 import {UserType} from "../redux/users-reducer";
+import {FormDataType} from "../components/profile/prodile-info/ProfileDataForm";
 
 export const axiosInstance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -31,19 +32,23 @@ export const usersAPI = {
 //-------Profile API-------------
 export type getProfileRespType = {
     userId: number
+    aboutMe:string
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
+    // contacts: {
+    //     github: string
+    //     vk: string
+    //     facebook: string
+    //     instagram: string
+    //     twitter: string
+    //     website: string
+    //     youtube: string
+    //     mainLink: string
+    // }
     contacts: {
-        github: string
-        vk: string
-        facebook: string
-        instagram: string
-        twitter: string
-        website: string
-        youtube: string
-        mainLink: string
-    }
+        [key: string]: string
+    },
     photos: {
         small: string
         large: string
@@ -70,7 +75,9 @@ export const profileAPI = {
             }
         })
     },
-
+    saveProfile(formData: FormDataType){
+        return axiosInstance.put<CommonRespType>('profile', formData)
+    }
 }
 
 

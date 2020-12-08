@@ -17,7 +17,7 @@ type FormDataType = {
 export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return <form onSubmit={props.handleSubmit}>
         <div>
-            <Field type="text" placeholder={'Login'} component={Input} name='login' validate={[required]}/>
+                <Field type="text" placeholder={'Login'} component={Input} name='login' validate={[required]}/>
         </div>
         <div>
             <Field placeholder={'Password'} component={Input} name='password' validate={[required]} type={'password'}/>

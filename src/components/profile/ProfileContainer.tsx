@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Profile from "./Profile";
-import {getProfile, getStatus, saveFile, updateStatus} from "../../redux/profile-reducer";
+import {getProfile, getStatus, saveFile, updateStatus,saveProfile} from "../../redux/profile-reducer";
 import {AppRootStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {getProfileRespType} from '../../api/api';
 import {compose} from "redux";
 import {withAuthRedirect} from "../hoc/WithAuthRedirect";
+import {FormDataType} from "./prodile-info/ProfileDataForm";
 
 
 type PathParamsType = {
@@ -46,6 +47,9 @@ class ProfileContainer extends React.Component<PropsType> {
     onSavePhoto = (file: any) => {
         this.props.saveFile(file);
     }
+    saveProfile = (formData: FormDataType) =>{
+        this.props.saveProfile(formData);
+    }
 
     render() {
         return <Profile {...this.props}
@@ -54,6 +58,7 @@ class ProfileContainer extends React.Component<PropsType> {
                         updateStatus={this.props.updateStatus}
                         isOwner={!this.props.match.params.userId}
                         saveFile={this.onSavePhoto}
+                        saveProfile={this.saveProfile}
         />
     }
 };
@@ -75,6 +80,7 @@ type MapDispatchToPropsType = {
     getStatus: (userId: number) => void
     updateStatus: (status: string) => void
     saveFile: (file: any) => void;
+    saveProfile:(formData: FormDataType) => void
 }
 
 
@@ -83,7 +89,8 @@ export default compose<React.ComponentType>(
         getProfile,
         getStatus,
         updateStatus,
-        saveFile
+        saveFile,
+        saveProfile
     }),
     withRouter,
     withAuthRedirect
