@@ -108,10 +108,16 @@ export const getStatus = (userId: number) => async (dispatch: Dispatch) => {
 }
 
 export const updateStatus = (status: string) => async (dispatch: Dispatch) => {
-    const res = await profileAPI.updateStatus(status)
-    if (res.data.resultCode === 0) {
-        dispatch(setStatus(status));
+    try{
+        const res = await profileAPI.updateStatus(status)
+        if (res.data.resultCode === 0) {
+            dispatch(setStatus(status));
+        }
+    } catch (error) {
+        debugger
+        console.log(error)
     }
+
 }
 
 export const saveFile = (file: any) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
