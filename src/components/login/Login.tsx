@@ -12,12 +12,15 @@ type FormDataType = {
     login: string
     password: string
     checkbox: boolean
+    captcha?: null | string
 }
-
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+type Props = {
+    captcha?: null | string
+}
+export const LoginForm: React.FC<InjectedFormProps<FormDataType,Props> & Props> = (props) => {
     return <form onSubmit={props.handleSubmit}>
         <div>
-                <Field type="text" placeholder={'Login'} component={Input} name='login' validate={[required]}/>
+            <Field type="text" placeholder={'Login'} component={Input} name='login' validate={[required]}/>
         </div>
         <div>
             <Field placeholder={'Password'} component={Input} name='password' validate={[required]} type={'password'}/>
@@ -25,6 +28,8 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
         <div>
             <Field component={Input} name='checkbox' type={'checkbox'}/>
         </div>
+        {props.captcha && <img src={props.captcha} alt="Captcha"/>}
+        {props.captcha &&  <Field type="text" placeholder={'Captcha'} component={Input} name='captcha' validate={[required]}/>}
         <div>
             {
                 props.error && <div className={styles.commonFieldError}>
@@ -40,39 +45,44 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     </form>
 }
 
-const LoginReduxForm = reduxForm<FormDataType>({
+const LoginReduxForm = reduxForm<FormDataType , Props>({
     // a unique name for the form
     form: 'login'
 })(LoginForm)
 
 type LoginPropsType = {
-    login: (email: string, password: string, rememberMe: boolean) => void
+    login: (email: string, password: string, rememberMe: boolean,captcha: null | string) => void
     isAuth: boolean
+    captcha: null | string
 }
 
 const Login = (props: LoginPropsType) => {
+
     const submit = (values: FormDataType) => {
-        props.login(values.login, values.password, values.checkbox)
+        props.login(values.login, values.password, values.checkbox,values.captcha as string )
     }
+
     if (props.isAuth) {
         return <Redirect to={'/profile'}/>
     }
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={submit}/>
+        <LoginReduxForm onSubmit={submit} captcha={props.captcha}/>
     </div>
 }
 
 
 type MapStateToPropsType = {
     isAuth: boolean
+    captcha: null | string
 }
 type MapDispatchToPropsType = {
-    login: (email: string, password: string, rememberMe: boolean) => void
+    login: (email: string, password: string, rememberMe: boolean,captcha: null | string) => void
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToPropsType => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        captcha: state.auth.captcha
     }
 }
 export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppRootStateType>(mapStateToProps, {login})(Login)

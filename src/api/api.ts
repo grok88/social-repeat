@@ -32,7 +32,7 @@ export const usersAPI = {
 //-------Profile API-------------
 export type getProfileRespType = {
     userId: number
-    aboutMe:string
+    aboutMe: string
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
@@ -75,18 +75,13 @@ export const profileAPI = {
             }
         })
     },
-    saveProfile(formData: FormDataType){
+    saveProfile(formData: FormDataType) {
         return axiosInstance.put<CommonRespType>('profile', formData)
     }
 }
 
 
 //----------AUTH API -----------------
-type CommonRespType<T = {}> = {
-    messages: string[]
-    resultCode: number
-    data: T
-}
 export const authApi = {
     authMe() {
         return axiosInstance.get<CommonRespType<{
@@ -95,12 +90,31 @@ export const authApi = {
             login: string
         }>>(`auth/me`)
     },
-    login(email: string, password: string, rememberMe: boolean) {
-        return axiosInstance.post<CommonRespType<{ userId: string }>>('auth/login', {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean, captcha: null | string) {
+        return axiosInstance.post<CommonRespType<{ userId: string }>>('auth/login', {
+            email,
+            password,
+            rememberMe,
+            captcha
+        })
     },
     logOut() {
         return axiosInstance.delete('auth/login')
     },
+}
+//----------security API -----------------
+export const securityApi = {
+    captchaUrl() {
+        return axiosInstance.get<{ url: string }>('security/get-captcha-url',)
+    },
+}
+
+
+//----------AUTH API -----------------
+type CommonRespType<T = {}> = {
+    messages: string[]
+    resultCode: number
+    data: T
 }
 //----------FOLLOW API -----------------
 type FollowCommonType = { resultCode: number, messages: Array<string>, data: {} }
